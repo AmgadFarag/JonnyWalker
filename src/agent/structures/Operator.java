@@ -1,5 +1,6 @@
 package agent.structures;
 
-public class Operator {
+public enum Operator {
+	UP,DOWN,LEFT,RIGHT,KILL,PICKUP
 
 }

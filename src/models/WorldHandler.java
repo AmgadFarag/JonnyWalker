@@ -13,14 +13,36 @@ public class WorldHandler implements MapListener{
 
 	public WorldHandler(WorldListener listen, Jon jon) {
 		listener = listen;
-		map = new Map((int)(Math.random()*10+1),(int)(Math.random()*10+1),
+		/*map = new Map((int)(Math.random()*10+1),(int)(Math.random()*10+1),
 				(int)(Math.random()*5+1),(int)(Math.random()*5+1),
-				(int)(Math.random()*3+1));
+				(int)(Math.random()*3+1));*/
 		this.jon = jon;
-		jon.setX(map.getM());
-		jon.setY(map.getN());
+		/*jon.setX(map.getM());
+		jon.setY(map.getN());*/
 	}
 
+	public int ifAttack() {
+		int count = 0;
+		if(jon.getDragonGlass()>0){
+			int tempX = jon.getX();
+			int tempY = jon.getY();
+			
+			MapCell temp = map.getMap()[tempX][tempY+1];
+			if (temp instanceof WalkerCell)
+				count++;
+			temp = map.getMap()[tempX][tempY-1];
+			if (temp instanceof WalkerCell)
+				count++;
+			temp = map.getMap()[tempX+1][tempY];
+			if (temp instanceof WalkerCell)
+				count++;
+			temp = map.getMap()[tempX-1][tempY];
+			if (temp instanceof WalkerCell)
+				count++;
+		}
+		return count;
+	}
+	
 	@Override
 	public void onAttack() {
 		if(jon.getDragonGlass()>0){
@@ -52,19 +74,48 @@ public class WorldHandler implements MapListener{
 
 	@Override
 	public MapCell ifMoveUp() {
-		return map.getMap()[jon.getX()][jon.getY()+1];
+		MapCell cell;
+		if((map.getMap().length < jon.getX()) ||
+		   (map.getMap().length > jon.getX()) ||
+				map.getMap()[jon.getX()].length < (jon.getY()+1) ||
+				map.getMap()[jon.getX()].length > (jon.getY()+1))
+			cell = null;
+		cell = map.getMap()[jon.getX()][jon.getY()+1];
+		return cell;
 	}
 	@Override
 	public MapCell ifMoveDown() {
-		return map.getMap()[jon.getX()][jon.getY()-1];
+		MapCell cell;
+		if((map.getMap().length < jon.getX()) ||
+		   (map.getMap().length > jon.getX()) ||
+				map.getMap()[jon.getX()].length < (jon.getY()-1) ||
+				map.getMap()[jon.getX()].length > (jon.getY()-1))
+			cell = null;
+		else
+			cell = map.getMap()[jon.getX()][jon.getY()-1];
+		return cell;
 	}
 	@Override
 	public MapCell ifMoveLeft() {
-		return map.getMap()[jon.getX()-1][jon.getY()];
+		MapCell cell;
+		if((map.getMap().length < jon.getX()-1) ||
+		   (map.getMap().length > jon.getX()-1) ||
+				map.getMap()[jon.getX()].length < jon.getY() ||
+				map.getMap()[jon.getX()].length > jon.getY())
+			cell = null;
+		cell = map.getMap()[jon.getX()-1][jon.getY()];
+		return cell;
 	}
 	@Override
 	public MapCell ifMoveRight() {
-		return map.getMap()[jon.getX()+1][jon.getY()];
+		MapCell cell;
+		if((map.getMap().length < jon.getX()+1) ||
+		   (map.getMap().length > jon.getX()+1) ||
+				map.getMap()[jon.getX()].length < jon.getY() ||
+				map.getMap()[jon.getX()].length > jon.getY())
+			cell = null;
+		cell = map.getMap()[jon.getX()+1][jon.getY()];
+		return cell;
 	}
 
 	

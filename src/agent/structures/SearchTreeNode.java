@@ -19,5 +19,20 @@ public class SearchTreeNode {
 	protected void addNode(SearchTreeNode newNode){
 		newNode.parent = this;
 	}
+	public State getState() {
+		return state;
+	}
+	public SearchTreeNode getParent() {
+		return parent;
+	}
+	public Operator getOperatorApplied() {
+		return operatorApplied;
+	}
+	public int getDepth() {
+		return depth;
+	}
+	public int getPathCost() {
+		return pathCost;
+	}
 
 }

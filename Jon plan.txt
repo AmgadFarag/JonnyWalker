@@ -1,0 +1,26 @@
+Precepts:
+See(surrounding 4 directional tiles)
+
+---------------------------------------------------------------
+Actions:
+Move(Forward, RotateLeft, RotateRight)/(Up, Down, Left, Right)
+Pick up
+Deploy dragon glass/Stab
+
+----------------------------------------------------------------
++ve Scores:
+(+20)Kill All Walkers
+(+5)Kill Walker
+(+5)Pickup when empty
+
+----------------------------------------------------------------
+-ve Scores:
+(-20)Walk into Walker
+(-10)Walk into Obstacle
+(-10)Walk outside
+(-6)Pickup when not empty
+(-3)Move After Deploy dragon glass
+(-3)Reverse Movement
+(-1)Movement
+
+----------------------------------------------------------------

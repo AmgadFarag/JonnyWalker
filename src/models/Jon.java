@@ -1,7 +1,6 @@
 package models;
 
 public class Jon {
-	private final int MAX_DRAGON_GLASS = (int) Math.random()*20 + 1;
 	
 	private int x,y,dragonGlass;
 
@@ -18,9 +17,7 @@ public class Jon {
 	public int getY() {
 		return y;
 	}
-	public int getMAX_DRAGON_GLASS() {
-		return MAX_DRAGON_GLASS;
-	}
+	
 	
 	public void setDragonGlass(int dragonGlass) {
 		this.dragonGlass = dragonGlass;
