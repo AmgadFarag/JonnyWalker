@@ -7,7 +7,7 @@ public class SearchTreeNode {
 	protected int depth;
 	protected int pathCost;
 
-	protected SearchTreeNode(State stat, SearchTreeNode prnt, 
+	public SearchTreeNode(State stat, SearchTreeNode prnt, 
 			Operator op, int dpth, int cost) {
 		state = stat;
 		parent = prnt;
@@ -16,9 +16,7 @@ public class SearchTreeNode {
 		pathCost = cost;
 	}
 	
-	protected void addNode(SearchTreeNode newNode){
-		newNode.parent = this;
-	}
+
 	public State getState() {
 		return state;
 	}

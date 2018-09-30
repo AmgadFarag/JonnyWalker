@@ -1,14 +1,14 @@
 package agent;
 
-import models.Map;
 import models.WorldHandler;
 import models.cells.ObstacleCell;
 import models.cells.WalkerCell;
 import agent.structures.Operator;
 import agent.structures.SearchTreeNode;
+import agent.structures.State;
 
 public abstract class Search {
-	private WorldHandler world;
+	protected WorldHandler world;
 	
 	public boolean isGoal(SearchTreeNode node){
 		if(node.getState().walkersLeft <= 0)
@@ -26,7 +26,7 @@ public abstract class Search {
 			return false;
 	}
 	
-	public int costOfOperator(SearchTreeNode node, Operator op){
+	public int scoreOfOperator(SearchTreeNode node, Operator op){
 		switch(op){
 		case KILL: 
 			int walkerCount = world.ifAttack();
@@ -95,5 +95,112 @@ public abstract class Search {
 		}
 		return 0;
 	}
+	
+	public int costOfOperator(SearchTreeNode node, Operator op){
+		switch(op){
+		case KILL: 
+			return 5;
+			
+		case PICKUP:
+			return 2;
 
+		case UP:
+			return 1;
+
+		case DOWN:
+			return 1;
+		
+		case LEFT:
+			return 1;
+		
+		case RIGHT:
+			return 1;
+		
+		}
+		return 0;
+	}
+
+	public SearchTreeNode[] expandNode(SearchTreeNode node){
+		SearchTreeNode[] result = new SearchTreeNode[6];
+		State current = node.getState();
+		if(node.getOperatorApplied() != Operator.KILL){
+			//UP
+			State upState = new State(current.x, current.y+1, 
+					current.walkersLeft, current.dragonglassLeft, 
+					current.localGoal);
+			result[0] = new SearchTreeNode(upState, node, Operator.UP, 
+					node.getDepth()+1, costOfOperator(node,Operator.UP));
+			//DOWN
+			State downState = new State(current.x, current.y-1, 
+					current.walkersLeft, current.dragonglassLeft, 
+					current.localGoal);
+			result[1] = new SearchTreeNode(downState, node, Operator.DOWN, 
+					node.getDepth()+1, costOfOperator(node,Operator.DOWN));
+			//LEFT
+			State leftState = new State(current.x+1, current.y, 
+					current.walkersLeft, current.dragonglassLeft, 
+					current.localGoal);
+			result[2] = new SearchTreeNode(leftState, node, Operator.LEFT, 
+					node.getDepth()+1, costOfOperator(node,Operator.LEFT));
+			//RIGHT
+			State rightState = new State(current.x-1, current.y, 
+					current.walkersLeft, current.dragonglassLeft, 
+					current.localGoal);
+			result[3] = new SearchTreeNode(rightState, node, Operator.RIGHT, 
+					node.getDepth()+1, costOfOperator(node,Operator.RIGHT));
+		}else{
+			//UP
+			State upState = new State(current.x, current.y+1, 
+					current.walkersLeft, current.dragonglassLeft-1, 
+					current.localGoal);
+			result[0] = new SearchTreeNode(upState, node, Operator.UP, 
+					node.getDepth()+1, costOfOperator(node,Operator.UP));
+			//DOWN
+			State downState = new State(current.x, current.y-1, 
+					current.walkersLeft, current.dragonglassLeft-1, 
+					current.localGoal);
+			result[1] = new SearchTreeNode(downState, node, Operator.DOWN, 
+					node.getDepth()+1, costOfOperator(node,Operator.DOWN));
+			//LEFT
+			State leftState = new State(current.x+1, current.y, 
+					current.walkersLeft, current.dragonglassLeft-1, 
+					current.localGoal);
+			result[2] = new SearchTreeNode(leftState, node, Operator.LEFT, 
+					node.getDepth()+1, costOfOperator(node,Operator.LEFT));
+			//RIGHT
+			State rightState = new State(current.x-1, current.y, 
+					current.walkersLeft, current.dragonglassLeft-1, 
+					current.localGoal);
+			result[3] = new SearchTreeNode(rightState, node, Operator.RIGHT, 
+					node.getDepth()+1, costOfOperator(node,Operator.RIGHT));
+		}
+		//Kill
+		State killState = new State(current.x, current.y, 
+				current.walkersLeft-world.ifAttack(), current.dragonglassLeft, 
+				current.localGoal);
+		result[4] = new SearchTreeNode(killState, node, Operator.KILL, 
+				node.getDepth()+1, costOfOperator(node,Operator.KILL));
+		//Pickup
+		State pickupState = new State(current.x, current.y, 
+				current.walkersLeft, world.map.MAX_DRAGON_STONES, 
+				current.localGoal);
+		result[4] = new SearchTreeNode(pickupState, node, Operator.PICKUP, 
+				node.getDepth()+1, costOfOperator(node,Operator.PICKUP));
+
+		return result;
+	}
+
+	public SearchTreeNode[] backTrack(SearchTreeNode node){
+		SearchTreeNode[] result = new SearchTreeNode[node.getDepth()+1];
+		SearchTreeNode current = node;
+		for(int i=node.getDepth(); i>=0; i--){
+			result[i] = current;
+			try{
+				current = current.getParent();
+			}catch(NullPointerException e){
+				//Root reached
+			}
+		}
+		return result;
+	}
 }

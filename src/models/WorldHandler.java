@@ -7,18 +7,17 @@ import models.cells.ObstacleCell;
 import models.cells.WalkerCell;
 
 public class WorldHandler implements MapListener{
-	private Map map;
-	private Jon jon;
+	public Map map;
+	public Jon jon;
 	private WorldListener listener;
 
-	public WorldHandler(WorldListener listen, Jon jon) {
+	public WorldHandler(WorldListener listen, GenGrid grid) {
 		listener = listen;
-		/*map = new Map((int)(Math.random()*10+1),(int)(Math.random()*10+1),
-				(int)(Math.random()*5+1),(int)(Math.random()*5+1),
-				(int)(Math.random()*3+1));*/
-		this.jon = jon;
-		/*jon.setX(map.getM());
-		jon.setY(map.getN());*/
+		
+		map = new Map(grid.mapM, grid.mapN, grid.walkers, grid.stones, grid.obstacle);
+		jon = new Jon(grid.MAX_DRAGON_GLASS);
+		jon.setX(map.mapM);
+		jon.setY(map.mapN);
 	}
 
 	public int ifAttack() {

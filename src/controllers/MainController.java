@@ -1,26 +1,33 @@
 package controllers;
 
 import agent.*;
-import models.Jon;
+import agent.structures.SearchTreeNode;
+import agent.structures.State;
+import models.GenGrid;
 import models.WorldHandler;
 import models.WorldListener;
 
 public class MainController implements WorldListener{
 	public WorldHandler world;
-	public Jon jon;
+	public GenGrid grid;
 	
 	public void GenGrid(){
-		jon = new Jon();
-		world = new WorldHandler(this, jon);
+		grid = new GenGrid();
 	}
 	
-	public Object[] Search(/*grid,*/ String strategy, boolean visualize){
+	public Object[] Search(GenGrid grid, String strategy, boolean visualize){
 		Object [] returns= new Object[3];//[0] sequence - [1] cost - [2] number nodes
+		
+		world = new WorldHandler(this, grid);
+		State initial = new State(world.map.mapM, world.map.mapN,
+				world.map.walkers.length, world.map.stones.length,
+				false);
+		SearchTreeNode root = new SearchTreeNode(initial,null,null,0,0);
 		
 		Search search;
 		switch(strategy){
 		case "BF" : search = new BFS(); break;
-		case "DF" : search = new DFS(); break;
+		case "DF" : search = new DFS(root, world); break;
 		case "ID" : search = new IDS(); break;
 		case "UC" : search = new UCS(); break;
 		case "GR1": search = new GS(1); break;

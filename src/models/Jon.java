@@ -1,13 +1,19 @@
 package models;
 
 public class Jon {
-	
+	private final int MAX_DRAGON_STONES;
 	private int x,y,dragonGlass;
 
-	public Jon() {
+	public Jon(int dg) {
+		MAX_DRAGON_STONES = dg;
 		dragonGlass = 0;
 	}
 
+
+
+	public int getMAX_DRAGON_STONES() {
+		return MAX_DRAGON_STONES;
+	}
 	public int getDragonGlass() {
 		return dragonGlass;
 	}
