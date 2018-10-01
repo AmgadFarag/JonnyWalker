@@ -2,24 +2,24 @@ package agent;
 
 import java.util.Stack;
 
-import models.WorldHandler;
+import models.MiniMap;
 import agent.structures.SearchTreeNode;
 
 public class DFS extends Search{
-	private SearchTreeNode root;
-	private Stack<SearchTreeNode> queue;
+	private static Stack<SearchTreeNode> queue;
 
-	public DFS(SearchTreeNode tre, WorldHandler newWorld) {
-		world = newWorld;
-		root = tre; 
+	public DFS(SearchTreeNode tre, MiniMap newWorld) {
 		queue = new Stack<SearchTreeNode>();
+		root = tre;
+		queue.push(tre);
+		begin(newWorld);
 	}
 	
-	public SearchTreeNode begin(){
+	public SearchTreeNode begin(MiniMap world){
 		SearchTreeNode current = queue.pop();
 		if(isGoal(current))
 			return current;
-		SearchTreeNode[] expansion = expandNode(current);
+		SearchTreeNode[] expansion = expandNode(world, current);
 		
 		for(SearchTreeNode temp: expansion)
 			try{
@@ -27,7 +27,7 @@ public class DFS extends Search{
 			}catch(NullPointerException e){
 			}
 
-		return begin();
+		return begin(world);
 	}
 
 }
