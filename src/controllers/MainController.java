@@ -28,7 +28,7 @@ public class MainController implements WorldListener{
 		switch(strategy){
 		case "BF" : search = new BFS(); break;
 		case "DF" : search = new DFS(root, world); break;
-		case "ID" : search = new IDS(); break;
+		case "ID" : search = new IDS(root, world); break;
 		case "UC" : search = new UCS(); break;
 		case "GR1": search = new GS(1); break;
 		case "GR2": search = new GS(2); break;

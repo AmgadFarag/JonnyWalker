@@ -3,6 +3,8 @@ package agent.structures;
 import models.MiniMap;
 
 public class SearchTreeNode {
+	public static String lastName;
+	protected String myLabel;
 	protected State state;
 	protected SearchTreeNode parent;
 	protected Operator operatorApplied;
@@ -12,6 +14,16 @@ public class SearchTreeNode {
 
 	public SearchTreeNode(MiniMap world, State stat, SearchTreeNode prnt, 
 			Operator op, int dpth, int cost) {
+
+		if(lastName.equals("") || lastName.equals(null)){
+			myLabel = "N0";
+			lastName = "N0";
+		}else{
+			int lastCount = Integer.parseInt(lastName.substring(1));
+			lastCount++;
+			myLabel = "N"+lastCount;
+			lastName = "N"+lastCount;
+		}
 		worldState = world;
 		state = stat;
 		parent = prnt;
@@ -36,5 +48,7 @@ public class SearchTreeNode {
 	public int getPathCost() {
 		return pathCost;
 	}
-
+	public String getMyLabel(){
+		return myLabel;
+	}
 }
