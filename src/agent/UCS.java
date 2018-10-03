@@ -18,6 +18,7 @@ public class UCS extends Search{
 		while(true){
 			if(queue.isEmpty()){
 				System.out.println("no more moves -ucs");
+				break;
 			}
 			SearchTreeNode current = queue.poll();
 			System.out.println(current);
