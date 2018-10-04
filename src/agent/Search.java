@@ -125,8 +125,7 @@ public abstract class Search {
 			//UP
 			moveAfterKill.x--;
 			result[0] = new SearchTreeNode(moveAfterKill, normalState, node, 
-					Operator.UP, node.getDepth()+1, 
-					Operator.costOfOperator(Operator.UP));
+					Operator.UP, node.getDepth()+1, Operator.costOfOperator(Operator.UP)+node.getPathCost());
 		}
 		if(world.ifMoveDown()){
 			//DOWN

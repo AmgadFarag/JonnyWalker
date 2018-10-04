@@ -1,5 +1,6 @@
 package agent;
 
+import models.MiniMap;
 import models.WorldHandler;
 
 import java.util.Stack;
@@ -7,19 +8,19 @@ import java.util.Stack;
 import agent.structures.Operator;
 import agent.structures.SearchTreeNode;
 import agent.structures.State;
-
+//result[0] b null, check for it
 public class IDS extends Search {
 	private SearchTreeNode root;
 	private Stack<SearchTreeNode> queue;
 
-	public IDS(SearchTreeNode root, WorldHandler newWorld) {
-		world = newWorld;
+	public IDS(SearchTreeNode root, MiniMap newWorld) {
 		this.root = root;
 		queue = new Stack<SearchTreeNode>();
 		queue.add(root);
+		begin(0,newWorld);
 	}
 
-	public SearchTreeNode begin(int depth) {
+	public SearchTreeNode begin(int depth, MiniMap newWorld) {
 		if (queue.isEmpty())
 			return null;
 		Stack<SearchTreeNode> temp = new Stack<SearchTreeNode>();
@@ -36,7 +37,7 @@ public class IDS extends Search {
 				SearchTreeNode current = temp.pop();
 				intermidate.push(current);
 				if (current.getDepth() < depth) {
-					SearchTreeNode[] expansion = expandNode(current);
+					SearchTreeNode[] expansion = expandNode(newWorld,current);
 					System.out.println(expansion.length);
 					
 					for (int j = expansion.length - 1; j >= 0; j--) {
@@ -54,7 +55,7 @@ public class IDS extends Search {
 
 			}
 		}
-		return begin(++depth);
+		return begin(++depth, newWorld);
 
 	}
 //	public static void main(String[] args) {
