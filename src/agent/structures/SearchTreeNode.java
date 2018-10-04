@@ -17,22 +17,15 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
 	public SearchTreeNode(MiniMap world, State stat, SearchTreeNode prnt, 
 			Operator op, int dpth, int cost) {
 
-		if(lastName.equals("") || lastName.equals(null)){
-			myLabel = "N0";
-			lastName = "N0";
-		}else{
-			int lastCount = Integer.parseInt(lastName.substring(1));
-			lastCount++;
-			myLabel = "N"+lastCount;
-			lastName = "N"+lastCount;
-		}
+		seqnum = seq.getAndIncrement();
+		myLabel = "N"+seqnum;
 		worldState = world;
 		state = stat;
 		parent = prnt;
 		operatorApplied = op;
 		depth = dpth;
 		pathCost = cost;
-		seqnum = seq.getAndIncrement();
+		
 	}
 	
 
