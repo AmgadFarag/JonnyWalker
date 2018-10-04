@@ -18,11 +18,9 @@ public class MainController implements WorldListener{
 	public Object[] Search(GenGrid grid, String strategy, boolean visualize){
 		Object [] returns= new Object[3];//[0] sequence - [1] cost - [2] number nodes
 		
-		world = new WorldHandler(this, grid);
-		State initial = new State(world.map.mapM, world.map.mapN,
-				world.map.walkers.length, world.map.stones.length,
-				false);
-		SearchTreeNode root = new SearchTreeNode(initial,null,null,0,0);
+		/*world = new WorldHandler(this, grid);
+		State initial = new State(world.map.mapM, false);
+		SearchTreeNode root = new SearchTreeNode(null, initial,null,null,0,0);
 		
 		Search search;
 		switch(strategy){
@@ -34,7 +32,7 @@ public class MainController implements WorldListener{
 		case "GR2": search = new GS(2); break;
 		case "AS1": search = new AS(1); break;
 		case "AS2": search = new AS(2); break;
-		}
+		}*/
 		
 		return returns;
 	}
