@@ -2,6 +2,7 @@ package agent.structures;
 
 import models.MiniMap;
 import java.util.concurrent.atomic.AtomicLong;
+
 public class SearchTreeNode implements Comparable<SearchTreeNode>{
 	public static String lastName;
 	protected String myLabel;
@@ -10,7 +11,7 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
 	protected Operator operatorApplied;
 	protected int depth;
 	protected int pathCost;
-	protected final MiniMap worldState;
+	private final MiniMap worldState;
 	protected final static AtomicLong seq = new AtomicLong();
 	protected long seqnum;
 
@@ -61,4 +62,9 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
         	else
             		return this.pathCost > n.pathCost ? 1 : -1;
     	}
+
+
+	public MiniMap getWorldState() {
+		return worldState;
+	}
 }
