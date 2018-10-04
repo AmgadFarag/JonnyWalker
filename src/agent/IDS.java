@@ -8,7 +8,7 @@ import java.util.Stack;
 import agent.structures.Operator;
 import agent.structures.SearchTreeNode;
 import agent.structures.State;
-
+//result[0] b null, check for it
 public class IDS extends Search {
 	private SearchTreeNode root;
 	private Stack<SearchTreeNode> queue;
