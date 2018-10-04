@@ -102,6 +102,8 @@ public abstract class Search {
 		State current = node.getState();
 		int walkersLeft = current.walkersLeft;
 		boolean localGoal = current.localGoal;
+		boolean canAttak = (node.getOperatorApplied() == Operator.KILL ||
+				world.dragonGlass >= 1);
 		MiniMap moveAfterKill = world;
 
 		State normalState = new State(walkersLeft, localGoal);
@@ -119,34 +121,42 @@ public abstract class Search {
 			killState = new State(walkersLeft, false);
 		}
 
-		if(world.ifMoveUp())
+		if(world.ifMoveUp()){
 			//UP
+			moveAfterKill.x--;
 			result[0] = new SearchTreeNode(moveAfterKill, normalState, node, 
 					Operator.UP, node.getDepth()+1, 
 					Operator.costOfOperator(Operator.UP));
-		if(world.ifMoveDown())
+		}
+		if(world.ifMoveDown()){
 			//DOWN
+			moveAfterKill.x++;
 			result[1] = new SearchTreeNode(moveAfterKill, normalState, node,
 					Operator.DOWN, node.getDepth()+1,
 					Operator.costOfOperator(Operator.DOWN));
-		if(world.ifMoveLeft())
+		}
+		if(world.ifMoveLeft()){
 			//LEFT
+			moveAfterKill.y--;
 			result[2] = new SearchTreeNode(moveAfterKill, normalState, node, 
 					Operator.LEFT, node.getDepth()+1, 
 					Operator.costOfOperator(Operator.LEFT));
-		if(world.ifMoveRight())
+		}
+		if(world.ifMoveRight()){
 			//RIGHT
+			moveAfterKill.y++;
 			result[3] = new SearchTreeNode(moveAfterKill, normalState, node,
 					Operator.RIGHT, node.getDepth()+1, 
 					Operator.costOfOperator(Operator.RIGHT));
+		}
 		
-		
-		if(world.ifAttack())
+		if(world.ifAttack() && !localGoal && canAttak){
 			//Kill
+			world.kill();
 			result[4] = new SearchTreeNode(world, killState, node, Operator.KILL, 
 					node.getDepth()+1, Operator.costOfOperator(Operator.KILL));
-		
-		if(world.ifPickUp()){
+		}
+		if(world.ifPickUp() && localGoal){
 			//Pickup
 			world.dragonGlass = world.MAX_DRAGON_STONES;
 			result[5] = new SearchTreeNode(world, pickupState, node, Operator.PICKUP, 
