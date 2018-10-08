@@ -1,5 +1,7 @@
 package agent;
 
+import java.util.ArrayList;
+
 import models.MiniMap;
 import agent.structures.Operator;
 import agent.structures.SearchTreeNode;
@@ -9,7 +11,15 @@ public abstract class Search {
 	protected SearchTreeNode root;
 	protected final int MAX_DPETH = 1000;
 	protected int cumelativeCost;
+	protected int cumelativeExpansions = 0;
 	
+
+	
+	public int getCumelativeExpansions() {
+		return cumelativeExpansions;
+	}
+	
+
 	public static boolean isGoal(SearchTreeNode node){
 		if(node.getState().walkersLeft <= 0)
 			return true;
@@ -97,8 +107,8 @@ public abstract class Search {
 	}
 	*/
 
-	public static SearchTreeNode[] expandNode(MiniMap world, SearchTreeNode node){
-		SearchTreeNode[] result = new SearchTreeNode[6];
+	public static ArrayList<SearchTreeNode> expandNode(MiniMap world, SearchTreeNode node){
+		ArrayList<SearchTreeNode> result = new ArrayList<SearchTreeNode>(6);
 		State current = node.getState();
 		int walkersLeft = current.walkersLeft;
 		boolean localGoal = current.localGoal;
@@ -124,55 +134,55 @@ public abstract class Search {
 		if(world.ifMoveUp()){
 			//UP
 			moveAfterKill.x--;
-			result[0] = new SearchTreeNode(moveAfterKill, normalState, node, 
-					Operator.UP, node.getDepth()+1, Operator.costOfOperator(Operator.UP)+node.getPathCost());
+			result.add(0, new SearchTreeNode(moveAfterKill, normalState, node, 
+					Operator.UP, node.getDepth()+1,
+					Operator.costOfOperator(Operator.UP)+node.getPathCost()));
 		}
 		if(world.ifMoveDown()){
 			//DOWN
 			moveAfterKill.x++;
-			result[1] = new SearchTreeNode(moveAfterKill, normalState, node,
+			result.add(1, new SearchTreeNode(moveAfterKill, normalState, node,
 					Operator.DOWN, node.getDepth()+1,
-					Operator.costOfOperator(Operator.DOWN));
+					Operator.costOfOperator(Operator.DOWN)+node.getPathCost()));
 		}
 		if(world.ifMoveLeft()){
 			//LEFT
 			moveAfterKill.y--;
-			result[2] = new SearchTreeNode(moveAfterKill, normalState, node, 
+			result.add(2, new SearchTreeNode(moveAfterKill, normalState, node, 
 					Operator.LEFT, node.getDepth()+1, 
-					Operator.costOfOperator(Operator.LEFT));
+					Operator.costOfOperator(Operator.LEFT)+node.getPathCost()));
 		}
 		if(world.ifMoveRight()){
 			//RIGHT
 			moveAfterKill.y++;
-			result[3] = new SearchTreeNode(moveAfterKill, normalState, node,
+			result.add(3, new SearchTreeNode(moveAfterKill, normalState, node,
 					Operator.RIGHT, node.getDepth()+1, 
-					Operator.costOfOperator(Operator.RIGHT));
+					Operator.costOfOperator(Operator.RIGHT)+node.getPathCost()));
 		}
 		
 		if(world.ifAttack() && !localGoal && canAttak){
 			//Kill
 			world.kill();
-			result[4] = new SearchTreeNode(world, killState, node, Operator.KILL, 
-					node.getDepth()+1, Operator.costOfOperator(Operator.KILL));
+			result.add(4, new SearchTreeNode(world, killState, node, Operator.KILL, 
+					node.getDepth()+1, Operator.costOfOperator(Operator.KILL)+node.getPathCost()));
 		}
 		if(world.ifPickUp() && localGoal){
 			//Pickup
-			world.dragonGlass = world.MAX_DRAGON_STONES;
-			result[5] = new SearchTreeNode(world, pickupState, node, Operator.PICKUP, 
-				node.getDepth()+1, Operator.costOfOperator(Operator.PICKUP));
+			world.dragonGlass = world.MAX_DRAGON_GLASS;
+			result.add(5, new SearchTreeNode(world, pickupState, node, Operator.PICKUP, 
+				node.getDepth()+1, Operator.costOfOperator(Operator.PICKUP)+node.getPathCost()));
 		}
 		return result;
 	}
 
-	public static SearchTreeNode[] backTrack(SearchTreeNode node){
-		SearchTreeNode[] result = new SearchTreeNode[node.getDepth()+1];
+	public static ArrayList<SearchTreeNode> backTrack(SearchTreeNode node){
+		ArrayList<SearchTreeNode> result = new ArrayList<SearchTreeNode>(node.getDepth()+1);
 		SearchTreeNode current = node;
 		for(int i=node.getDepth(); i>=0; i--){
-			result[i] = current;
+			result.add(i, current);
 			try{
 				current = current.getParent();
 			}catch(NullPointerException e){
-				//Root reached
 			}
 		}
 		return result;
@@ -214,5 +224,7 @@ public abstract class Search {
 		
 		return cost;
 	}
+	
+	public abstract SearchTreeNode begin(MiniMap world);
 
 }

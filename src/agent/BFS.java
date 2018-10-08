@@ -1,5 +1,6 @@
 package agent;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import models.MiniMap;
@@ -20,11 +21,14 @@ public class BFS extends Search{
 		SearchTreeNode current = queue.getFirst();
 		if(isGoal(current))
 			return current;
-		SearchTreeNode[] expansion = expandNode(world, current);
+
+		ArrayList<SearchTreeNode> expansion = expandNode(world, current);
 		
 		for(SearchTreeNode temp: expansion)
-			if(temp != null)
+			if(temp != null){
+				System.out.println(temp);
 				queue.addLast(temp);
+			}
 
 		return begin(world);
 	}

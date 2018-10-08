@@ -1,5 +1,6 @@
 package agent;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 import models.MiniMap;
@@ -12,20 +13,30 @@ public class DFS extends Search{
 		queue = new Stack<SearchTreeNode>();
 		root = tre;
 		queue.push(tre);
+		cumelativeExpansions = 0;
+		System.out.println(root);
 		begin(newWorld);
 	}
 	
 	public SearchTreeNode begin(MiniMap world){
+		if(queue.isEmpty())
+			return null;
+
 		SearchTreeNode current = queue.pop();
-		if(isGoal(current))
+		if(isGoal(current)){
+			System.out.println(current);
 			return current;
-		SearchTreeNode[] expansion = expandNode(world, current);
+		}
+
+		ArrayList<SearchTreeNode> expansion = expandNode(world, current);
 		
-		for(SearchTreeNode temp: expansion)
-			try{
-				queue.push(temp);
-			}catch(NullPointerException e){
-			}
+		for(int i=expansion.size()-1; i>=0; i--){
+			SearchTreeNode temp = expansion.get(i);
+			System.out.println(temp);
+			queue.push(temp);
+			cumelativeExpansions++;
+		}
+		
 
 		return begin(world);
 	}

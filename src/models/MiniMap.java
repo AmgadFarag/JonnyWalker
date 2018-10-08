@@ -5,13 +5,21 @@ public class MiniMap {
 	public int[][] stones;
 	public int[][] walkers;
 	public int[][] obstacles;
-	public final int MAX_DRAGON_STONES;
+	public final int MAX_DRAGON_GLASS;
 	public int x,y,dragonGlass;
 
-	public MiniMap(int m, int n, int max){
-		mapM = m;
-		mapN = n;
-		MAX_DRAGON_STONES = max;
+	public MiniMap(int mapM, int mapN, int max, 
+			int[][] stones, int[][] walkers, int[][] obstacles, 
+			int x, int y, int dragonGlass){
+		this.mapM = mapM;
+		this.mapN = mapN;
+		MAX_DRAGON_GLASS = max;
+		this.stones = stones;
+		this.walkers = walkers;
+		this.obstacles = obstacles;
+		this.x = x;
+		this.y = y;
+		this.dragonGlass = dragonGlass;
 	}
 	
 	public void kill(){

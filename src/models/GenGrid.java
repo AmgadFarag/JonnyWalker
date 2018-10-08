@@ -14,12 +14,14 @@ public class GenGrid {
 	public int[][] obstacle;
 	
 	public GenGrid(){
-		mapM = (int) (Math.random()*10 + MINIMUM_M);
-		mapN = (int) (Math.random()*10 + MINIMUM_N);
+		mapM = (int) (Math.random()*6 + MINIMUM_M);
+		mapN = (int) (Math.random()*6 + MINIMUM_N);
 		int mn = (mapN + mapM) /2; 
 		MAX_WALKERS = (int) (Math.random()*mn + 1);
-		MAX_OBSTACLES = (int) (Math.random()*mn + 1);
+		mn = (mn-MAX_WALKERS>3)? mn-MAX_WALKERS:3;
 		MAX_DRAGON_GLASS = (int) (Math.random()*mn +1);
+		mn = (mn-MAX_DRAGON_GLASS>1)? mn-MAX_DRAGON_GLASS:1;
+		MAX_OBSTACLES = (int) (Math.random()*mn + 1);
 		
 		stones = new int[MAX_DRAGON_STONES][2];
 		walkers = new int[MAX_WALKERS][2];
@@ -27,15 +29,15 @@ public class GenGrid {
 		
 		int[][] map = new int[mapM][mapN];
 		
-		for(int i=MAX_WALKERS; i>0; i--){
+		for(int i=MAX_WALKERS-1; i>0; i--){
 			int tempM = (int)Math.random()*mapM;
 			int tempN = (int)Math.random()*mapN;
 			map[tempM][tempN] = 1;
 			walkers[i][0] = tempM;
 			walkers[i][1] = tempN;
 		}
-		
-		for(int i=MAX_DRAGON_STONES; i>0; i--){
+		System.out.println("walkers done");
+		for(int i=MAX_DRAGON_STONES-1; i>0; i--){
 			int tempM = (int)Math.random()*mapM;
 			int tempN = (int)Math.random()*mapN;
 			if(map[tempM][tempN] == 1)
@@ -46,7 +48,8 @@ public class GenGrid {
 				stones[i][1] = tempN;
 			}
 		}
-		for(int i=MAX_OBSTACLES; i>0; i--){
+		System.out.println("stones done");
+		for(int i=MAX_OBSTACLES-1; i>0; i--){
 			int tempM = (int)Math.random()*mapM;
 			int tempN = (int)Math.random()*mapN;
 			if(map[tempM][tempN] == 1)
@@ -57,6 +60,7 @@ public class GenGrid {
 				obstacle[i][1] = tempN;
 			}
 		}
+		System.out.println("obstacles done");
 	}
 
 }

@@ -29,7 +29,9 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
 		
 	}
 	
-
+	public MiniMap getWorldState() {
+		return worldState;
+	}
 	public State getState() {
 		return state;
 	}
@@ -49,15 +51,17 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
 		return myLabel;
 	}
 	@Override
-        public int compareTo(SearchTreeNode n) {
-        	if(this.pathCost == n.pathCost)
-           	 	return this.seqnum > n.seqnum ? 1 : -1;
-        	else
-            		return this.pathCost > n.pathCost ? 1 : -1;
-    	}
+    public int compareTo(SearchTreeNode n) {
+       	if(this.pathCost == n.pathCost)
+       	 	return this.seqnum > n.seqnum ? 1 : -1;
+       	else
+      		return this.pathCost > n.pathCost ? 1 : -1;
+    }
 
-
-	public MiniMap getWorldState() {
-		return worldState;
+	public String toString(){
+		String s = "Label: "+myLabel+" After ";
+		s+=(operatorApplied!=null)? operatorApplied.toString():" NOTHING";
+		return s;
 	}
+	
 }
