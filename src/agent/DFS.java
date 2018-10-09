@@ -3,22 +3,20 @@ package agent;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import models.MiniMap;
 import agent.structures.SearchTreeNode;
 
 public class DFS extends Search{
 	private static Stack<SearchTreeNode> queue;
 
-	public DFS(SearchTreeNode tre, MiniMap newWorld) {
+	public DFS(SearchTreeNode tre) {
 		queue = new Stack<SearchTreeNode>();
 		root = tre;
 		queue.push(tre);
 		cumelativeExpansions = 0;
-		System.out.println(root);
-		begin(newWorld);
+		begin();
 	}
 	
-	public SearchTreeNode begin(MiniMap world){
+	public SearchTreeNode begin(){
 		if(queue.isEmpty())
 			return null;
 
@@ -28,17 +26,16 @@ public class DFS extends Search{
 			return current;
 		}
 
-		ArrayList<SearchTreeNode> expansion = expandNode(world, current);
+		ArrayList<SearchTreeNode> expansion = expandNode(current);
 		
-		for(int i=expansion.size()-1; i>=0; i--){
-			SearchTreeNode temp = expansion.get(i);
-			System.out.println(temp);
+		for(SearchTreeNode temp : expansion){
+			//System.out.println(temp);
 			queue.push(temp);
 			cumelativeExpansions++;
 		}
 		
-
-		return begin(world);
+		System.out.println(queue);
+		return begin();
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class SearchTreeNode implements Comparable<SearchTreeNode>{
 	public static String lastName;
-	protected String myLabel;
+	//protected String myLabel;
 	protected State state;
 	protected SearchTreeNode parent;
 	protected Operator operatorApplied;
@@ -19,7 +19,7 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
 			Operator op, int dpth, int cost) {
 
 		seqnum = seq.getAndIncrement();
-		myLabel = "N"+seqnum;
+		//myLabel = "N"+seqnum;
 		worldState = world;
 		state = stat;
 		parent = prnt;
@@ -47,9 +47,9 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
 	public int getPathCost() {
 		return pathCost;
 	}
-	public String getMyLabel(){
+	/*public String getMyLabel(){
 		return myLabel;
-	}
+	}*/
 	@Override
     public int compareTo(SearchTreeNode n) {
        	if(this.pathCost == n.pathCost)
@@ -59,8 +59,9 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
     }
 
 	public String toString(){
-		String s = "Label: "+myLabel+" After ";
+		String s = "Label: "+/*myLabel*/seqnum+" After ";
 		s+=(operatorApplied!=null)? operatorApplied.toString():" NOTHING";
+		s+=" Costing "+pathCost;
 		return s;
 	}
 	

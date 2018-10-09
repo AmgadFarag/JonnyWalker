@@ -1,21 +1,26 @@
 package agent;
+
+import java.util.ArrayList;
 import java.util.PriorityQueue;
+
 import agent.structures.Operator;
 import agent.structures.SearchTreeNode;
 import agent.structures.State;
 import models.MiniMap;
+
 public class UCS extends Search{
     private SearchTreeNode root;
 	private PriorityQueue<SearchTreeNode> queue;
-	public UCS(SearchTreeNode root, MiniMap newWorld) {
+	
+	public UCS(SearchTreeNode root) {
 		// TODO Auto-generated constructor stub
 		this.root = root;
 		queue = new PriorityQueue<SearchTreeNode>();
 		queue.add(root);
-		begin(newWorld);
+		begin();
 	}
-	public SearchTreeNode begin(MiniMap newWorld) {
-
+	
+	public SearchTreeNode begin() {
 		while(true){
 			if(queue.isEmpty()){
 				System.out.println("no more moves -ucs");
@@ -25,18 +30,12 @@ public class UCS extends Search{
 			System.out.println(current);
 			if (isGoal(current))
 					return current;
-		    SearchTreeNode[] expandednodes = expandNode(newWorld,current);
-			for (int j = expandednodes.length - 1; j >= 0; j--) {
-						queue.add(expandednodes[j]);
-					}
-			 
-			
+		    ArrayList<SearchTreeNode> expandednodes = expandNode(current);
+			for (int j = expandednodes.size() - 1; j >= 0; j--) {
+						queue.add(expandednodes.get(j));
+			}
+			System.out.println(queue);
 		}
-
-
 	}
-
-
-
 }
 

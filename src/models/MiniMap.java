@@ -1,15 +1,18 @@
 package models;
 
+import java.util.ArrayList;
+
 public class MiniMap {
 	public final int mapM, mapN;
-	public int[][] stones;
-	public int[][] walkers;
-	public int[][] obstacles;
+	public ArrayList<int[]> stones;
+	public ArrayList<int[]> walkers;
+	public ArrayList<int[]> obstacles;
 	public final int MAX_DRAGON_GLASS;
 	public int x,y,dragonGlass;
 
 	public MiniMap(int mapM, int mapN, int max, 
-			int[][] stones, int[][] walkers, int[][] obstacles, 
+			ArrayList<int[]> stones, ArrayList<int[]> walkers, 
+			ArrayList<int[]> obstacles, 
 			int x, int y, int dragonGlass){
 		this.mapM = mapM;
 		this.mapN = mapN;
@@ -23,77 +26,71 @@ public class MiniMap {
 	}
 	
 	public void kill(){
-		int index = -1;
-		for(int i=0; i<walkers.length; i++)
-			if(walkers[i][0] == x && walkers[i][1]+1 == y ||
-					walkers[i][0] == x && walkers[i][1]-1 == y ||
-					walkers[i][0]+1 == x && walkers[i][1] == y ||
-					walkers[i][0]-1 == x && walkers[i][1] == y ){
-				index = i;
+		for(int i=0; i<walkers.size(); i++){
+			int[] wal = walkers.get(i);
+			if(wal[0] == x && wal[1]+1 == y ||
+					wal[0] == x && wal[1]-1 == y ||
+					wal[0]+1 == x && wal[1] == y ||
+					wal[0]-1 == x && wal[1] == y ){
+				walkers.remove(i);
 				break;
-			}
-		if(index != -1){
-			int[] trash = new int[2], temp = new int[2];
-			for(int i=walkers.length; i>index; i--){
-				temp = walkers[i];
-				walkers[i] = trash;
-				trash = walkers[i-1];
-				walkers[i-1] = temp;
 			}
 		}
 	}
 	
 	public boolean ifAttack() {
-		for(int i=0; i<walkers.length; i++)
-			if(walkers[i][0] == x && walkers[i][1]+1 == y ||
-					walkers[i][0] == x && walkers[i][1]-1 == y ||
-					walkers[i][0]+1 == x && walkers[i][1] == y ||
-					walkers[i][0]-1 == x && walkers[i][1] == y )
+		for(int i=0; i<walkers.size(); i++){
+			int[] wal = walkers.get(i);
+			if(wal[0] == x && wal[1]+1 == y ||
+					wal[0] == x && wal[1]-1 == y ||
+					wal[0]+1 == x && wal[1] == y ||
+					wal[0]-1 == x && wal[1] == y )
 				return true;
-		
+		}
 		return false;
 	}
 
 	public boolean ifPickUp() {
-		for(int i=0; i<stones.length; i++)
-			if(stones[i][0] == x && stones[i][1]+1 == y ||
-					stones[i][0] == x && stones[i][1]-1 == y ||
-					stones[i][0]+1 == x && stones[i][1] == y ||
-					stones[i][0]-1 == x && stones[i][1] == y )
+		for(int i=0; i<stones.size(); i++){
+			int[] st = stones.get(i);
+			if(st[0] == x && st[1]+1 == y ||
+					st[0] == x && st[1]-1 == y ||
+					st[0]+1 == x && st[1] == y ||
+					st[0]-1 == x && st[1] == y )
 				return true;
-		
+		}
 		return false;
 	}
 	
 	public boolean ifMoveUp() {
 		if(0 >= x)
 			return false;
-		for(int i=0; i<obstacles.length; i++)
-			if(obstacles[i][0] == x && obstacles[i][1]+1 == y)
+		for(int i=0; i<obstacles.size(); i++)
+			if(obstacles.get(i)[0] == x && obstacles.get(i)[1] == y-1)
 				return false;
 		return true;
 	}
 	public boolean ifMoveDown() {
 		if(mapM <= x)
 			return false;
-		for(int i=0; i<obstacles.length; i++)
-			if(obstacles[i][0] == x && obstacles[i][1]-1 == y)
+		for(int i=0; i<obstacles.size(); i++)
+			if(obstacles.get(i)[0] == x && obstacles.get(i)[1] == y+1)
 				return false;
 		return true;
 	}
 	public boolean ifMoveRight() {
 		if(mapN <= y)
 			return false;
-		for(int i=0; i<obstacles.length; i++)
-			if(obstacles[i][0]+1 == x && obstacles[i][1] == y)
+		for(int i=0; i<obstacles.size(); i++)
+			if(obstacles.get(i)[0] == x-1 && obstacles.get(i)[1] == y)
 				return false;
 		return true;
 	}
 	public boolean ifMoveLeft() {
 		if(0 >= y)
 			return false;
-		for(int i=0; i<obstacles.length; i++)
-			if(obstacles[i][0]-1 == x && obstacles[i][1] == y)
+		for(int i=0; i<obstacles.size(); i++)
+			if(obstacles.get(i)[0] == x+1 && obstacles.get(i)[1] == y)
 				return false;
 		return true;
 	}

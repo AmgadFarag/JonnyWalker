@@ -1,5 +1,7 @@
 package models;
 
+import java.util.ArrayList;
+
 import models.cells.DragonStoneCell;
 import models.cells.EmptyCell;
 import models.cells.MapCell;
@@ -12,13 +14,13 @@ public class Map {
 	public final int MAX_DRAGON_STONES = 1;
 
 	public final int mapM, mapN;
-	public int[][] stones;
-	public int[][] walkers;
-	public int[][] obstacles;
+	public ArrayList<int[]> stones;
+	public ArrayList<int[]> walkers;
+	public ArrayList<int[]> obstacles;
 	private MapCell[][] map;
 
-	public Map(int m, int n, int[][] walker, 
-			int[][] stone, int[][] obstacle) {
+	public Map(int m, int n, ArrayList<int[]> walker, 
+			ArrayList<int[]> stone, ArrayList<int[]> obstacle) {
 		mapM = m;
 		mapN = n;
 		walkers = walker;
@@ -30,14 +32,14 @@ public class Map {
 	}
 	
 	public void populateMap(){
-		for(int i=0; i<walkers.length; i++)
-			map[walkers[i][0]][walkers[i][1]] = new WalkerCell();
+		for(int i=0; i<walkers.size(); i++)
+			map[walkers.get(i)[0]][walkers.get(i)[1]] = new WalkerCell();
 		
-		for(int i=0; i<stones.length; i++)
-			map[stones[i][0]][stones[i][1]] = new DragonStoneCell();
+		for(int i=0; i<stones.size(); i++)
+			map[stones.get(i)[0]][stones.get(i)[1]] = new DragonStoneCell();
 		
-		for(int i=0; i<obstacles.length; i++)
-			map[obstacles[i][0]][obstacles[i][1]] = new ObstacleCell();
+		for(int i=0; i<obstacles.size(); i++)
+			map[obstacles.get(i)[0]][obstacles.get(i)[1]] = new ObstacleCell();
 	}
 	
 	

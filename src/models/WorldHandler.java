@@ -14,7 +14,7 @@ public class WorldHandler implements MapListener{
 	public WorldHandler(WorldListener listen, GenGrid grid) {
 		listener = listen;
 		
-		map = new Map(grid.mapM, grid.mapN, grid.walkers, grid.stones, grid.obstacle);
+		map = new Map(grid.mapM, grid.mapN, grid.walkers, grid.stones, grid.obstacles);
 		jon = new Jon(grid.MAX_DRAGON_GLASS);
 		jon.setX(map.mapM);
 		jon.setY(map.mapN);

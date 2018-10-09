@@ -3,34 +3,41 @@ package agent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import models.MiniMap;
 import agent.structures.SearchTreeNode;
 
 
 public class BFS extends Search{
 	private static LinkedList<SearchTreeNode> queue;
 
-	public BFS(SearchTreeNode tre, MiniMap newWorld) {
+	public BFS(SearchTreeNode tre) {
 		queue = new LinkedList<SearchTreeNode>();
 		root = tre;
 		queue.add(tre);
-		begin(newWorld);
+		cumelativeExpansions = 0;
+		begin();
 	}
 	
-	public SearchTreeNode begin(MiniMap world){
-		SearchTreeNode current = queue.getFirst();
-		if(isGoal(current))
+	public SearchTreeNode begin(){
+		if(queue.isEmpty())
+			return null;
+		
+		SearchTreeNode current = queue.removeFirst();
+		if(isGoal(current)){
+			System.out.println(current);
 			return current;
+		}
 
-		ArrayList<SearchTreeNode> expansion = expandNode(world, current);
+		ArrayList<SearchTreeNode> expansion = expandNode(current);
 		
 		for(SearchTreeNode temp: expansion)
 			if(temp != null){
-				System.out.println(temp);
+				//System.out.println(temp);
 				queue.addLast(temp);
+				cumelativeExpansions++;
 			}
 
-		return begin(world);
+		System.out.println(queue);
+		return begin();
 	}
 
 }
