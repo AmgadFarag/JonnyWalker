@@ -76,7 +76,12 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
 	       	else
 	      		return this.heursticCost > n.heursticCost ? 1 : -1;
 		case "AS":
-			break;
+		    int combineda = heursticCost + pathCost;
+		    int combinedb = n.heursticCost + n.pathCost;
+			if(combineda == combinedb)
+	       	 	return this.seqnum > n.seqnum ? 1 : -1;
+	       	else
+	      		return combineda > combinedb ? 1 : -1;
 		case "":
 			break;
 		}
