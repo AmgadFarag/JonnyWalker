@@ -3,6 +3,7 @@ package agent;
 import models.MiniMap;
 import models.WorldHandler;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 import agent.structures.Operator;
@@ -13,14 +14,16 @@ public class IDS extends Search {
 	private SearchTreeNode root;
 	private Stack<SearchTreeNode> queue;
 
-	public IDS(SearchTreeNode root, MiniMap newWorld) {
+	public IDS(SearchTreeNode root) {
 		this.root = root;
 		queue = new Stack<SearchTreeNode>();
 		queue.add(root);
-		begin(0,newWorld);
+	}
+	public SearchTreeNode begin(){
+		return begin(0);
 	}
 
-	public SearchTreeNode begin(int depth, MiniMap newWorld) {
+	public SearchTreeNode begin(int depth) {
 		if (queue.isEmpty())
 			return null;
 		Stack<SearchTreeNode> temp = new Stack<SearchTreeNode>();
@@ -37,11 +40,11 @@ public class IDS extends Search {
 				SearchTreeNode current = temp.pop();
 				intermidate.push(current);
 				if (current.getDepth() < depth) {
-					SearchTreeNode[] expansion = expandNode(newWorld,current);
-					System.out.println(expansion.length);
+					ArrayList<SearchTreeNode> expansion = expandNode(current);
+					System.out.println(expansion.size());
 					
-					for (int j = expansion.length - 1; j >= 0; j--) {
-						temp.push(expansion[j]);
+					for (int j = expansion.size() - 1; j >= 0; j--) {
+						temp.push(expansion.get(j));
 
 					}
 				}
@@ -55,7 +58,7 @@ public class IDS extends Search {
 
 			}
 		}
-		return begin(++depth, newWorld);
+		return begin(++depth);
 
 	}
 //	public static void main(String[] args) {
