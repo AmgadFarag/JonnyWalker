@@ -141,10 +141,10 @@ public abstract class Search {
 			newMap.x--;
 			if(node.getOperatorApplied() == Operator.KILL)
 				newMap.dragonGlass--;
-
+            
 			result.add(new SearchTreeNode(newMap, normalState, node, 
 					Operator.UP, node.getDepth()+1,
-					Operator.costOfOperator(Operator.UP)+node.getPathCost()));
+					Operator.costOfOperator(Operator.UP)+node.getPathCost(), node.getSearchType()));
 		}
 		if(world.ifMoveDown() && node.getOperatorApplied() != Operator.UP){
 			//DOWN
@@ -158,7 +158,7 @@ public abstract class Search {
 			
 			result.add(new SearchTreeNode(newMap, normalState, node,
 					Operator.DOWN, node.getDepth()+1,
-					Operator.costOfOperator(Operator.DOWN)+node.getPathCost()));
+					Operator.costOfOperator(Operator.DOWN)+node.getPathCost(), node.getSearchType()));
 		}
 		if(world.ifMoveLeft() && node.getOperatorApplied() != Operator.RIGHT){
 			//LEFT
@@ -172,7 +172,7 @@ public abstract class Search {
 			
 			result.add(new SearchTreeNode(newMap, normalState, node, 
 					Operator.LEFT, node.getDepth()+1, 
-					Operator.costOfOperator(Operator.LEFT)+node.getPathCost()));
+					Operator.costOfOperator(Operator.LEFT)+node.getPathCost(), node.getSearchType()));
 		}
 		if(world.ifMoveRight() && node.getOperatorApplied() != Operator.LEFT){
 			//RIGHT
@@ -186,7 +186,7 @@ public abstract class Search {
 			
 			result.add(new SearchTreeNode(newMap, normalState, node,
 					Operator.RIGHT, node.getDepth()+1, 
-					Operator.costOfOperator(Operator.RIGHT)+node.getPathCost()));
+					Operator.costOfOperator(Operator.RIGHT)+node.getPathCost(), node.getSearchType()));
 		}
 		
 		if(world.ifAttack() && !localGoal && canAttak){
@@ -194,14 +194,14 @@ public abstract class Search {
 			MiniMap newMap = world;
 			newMap.kill();
 			result.add(new SearchTreeNode(newMap, killState, node, Operator.KILL, 
-					node.getDepth()+1, Operator.costOfOperator(Operator.KILL)+node.getPathCost()));
+					node.getDepth()+1, Operator.costOfOperator(Operator.KILL)+node.getPathCost(), node.getSearchType()));
 		}
 		if(world.ifPickUp() && localGoal){
 			//Pickup
 			MiniMap newMap = world;
 			newMap.dragonGlass = world.MAX_DRAGON_GLASS;
 			result.add(new SearchTreeNode(newMap, pickupState, node, Operator.PICKUP, 
-				node.getDepth()+1, Operator.costOfOperator(Operator.PICKUP)+node.getPathCost()));
+				node.getDepth()+1, Operator.costOfOperator(Operator.PICKUP)+node.getPathCost(), node.getSearchType()));
 		}
 		return result;
 	}

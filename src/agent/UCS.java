@@ -34,7 +34,6 @@ public class UCS extends Search{
 			for (int j = expandednodes.size() - 1; j >= 0; j--) {
 						queue.add(expandednodes.get(j));
 			}
-			System.out.println(queue);
 		}
 	}
 }

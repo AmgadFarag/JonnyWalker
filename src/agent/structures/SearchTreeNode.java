@@ -14,21 +14,35 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
 	private final MiniMap worldState;
 	protected final static AtomicLong seq = new AtomicLong();
 	protected long seqnum;
+	protected String searchType;
+	protected int heursticCost;
+
+	public String getSearchType() {
+		return searchType;
+	}
 
 	public SearchTreeNode(MiniMap world, State stat, SearchTreeNode prnt, 
-			Operator op, int dpth, int cost) {
+			Operator op, int dpth, int cost,String searchType) {
 
 		seqnum = seq.getAndIncrement();
-		//myLabel = "N"+seqnum;
 		worldState = world;
 		state = stat;
 		parent = prnt;
 		operatorApplied = op;
 		depth = dpth;
 		pathCost = cost;
+		this.searchType = searchType;
 		
 	}
 	
+	public int getHeursticCost() {
+		return heursticCost;
+	}
+
+	public void setHeursticCost(int heursticCost) {
+		this.heursticCost = heursticCost;
+	}
+
 	public MiniMap getWorldState() {
 		return worldState;
 	}
@@ -47,22 +61,42 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
 	public int getPathCost() {
 		return pathCost;
 	}
-	/*public String getMyLabel(){
-		return myLabel;
-	}*/
+
 	@Override
     public int compareTo(SearchTreeNode n) {
-       	if(this.pathCost == n.pathCost)
-       	 	return this.seqnum > n.seqnum ? 1 : -1;
-       	else
-      		return this.pathCost > n.pathCost ? 1 : -1;
-    }
+		switch (searchType) {
+		case "UCS":
+			if(this.pathCost == n.pathCost)
+	       	 	return this.seqnum > n.seqnum ? 1 : -1;
+	       	else
+	      		return this.pathCost > n.pathCost ? 1 : -1;
+		case "Greedy":
+			if(this.heursticCost == n.heursticCost)
+	       	 	return this.seqnum > n.seqnum ? 1 : -1;
+	       	else
+	      		return this.heursticCost > n.heursticCost ? 1 : -1;
+		case "AS":
+			break;
+		case "":
+			break;
+		}
+			
+		return 0;
+
+		} 
+			
+       
 
 	public String toString(){
 		String s = "Label: "+/*myLabel*/seqnum+" After ";
 		s+=(operatorApplied!=null)? operatorApplied.toString():" NOTHING";
 		s+=" Costing "+pathCost;
 		return s;
+	}
+
+	public void setSearchType(String string) {
+		this.searchType = string;
+		
 	}
 	
 }

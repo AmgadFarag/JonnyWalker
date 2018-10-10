@@ -28,19 +28,19 @@ public class MainController implements WorldListener{
 				grid.stones, grid.walkers, grid.obstacles, grid.mapM, grid.mapN, 0);
 		
 
-		SearchTreeNode root = new SearchTreeNode(miniWorld, initial,null,null,0,0);
+		SearchTreeNode root = new SearchTreeNode(miniWorld, initial,null,null,0,0,"");
 		
 		Search search;
 		switch(strategy){
 		case "BF" : search = new BFS(root); break;
 		case "DF" : search = new DFS(root); break;
 		case "ID" : search = new IDS(root); break;
-		case "UC" : search = new UCS(root); break;
-		case "GR1": search = new GS(1); break;
-		case "GR2": search = new GS(2); break;
-		case "AS1": search = new AS(1); break;
-		case "AS2": search = new AS(2); break;
-		default : search = new AS(1); break;
+		case "UC" : search = new UCS(root); root.setSearchType("UCS");break;
+		case "GR1": search = new GS(1,root); root.setSearchType("Greedy"); break;
+		case "GR2": search = new GS(2,root); root.setSearchType("Greedy"); break;
+		case "AS1": search = new AS(1); root.setSearchType("AS"); break;
+		case "AS2": search = new AS(2); root.setSearchType("AS"); break;
+		default : search = new BFS(root); break;
 		}
 		
 		SearchTreeNode goal = search.begin();
