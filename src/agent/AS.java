@@ -3,6 +3,7 @@ package agent;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+
 import agent.structures.SearchTreeNode;
 
 public class AS extends Search{
@@ -20,6 +21,7 @@ public class AS extends Search{
 
 	@Override
 	public SearchTreeNode begin() {
+
 		while(true){
 			if(queue.isEmpty()){
 				System.out.println("no more moves -GS");

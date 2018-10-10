@@ -3,6 +3,7 @@ package agent;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+
 import agent.structures.SearchTreeNode;
 
 public class GS extends Search{
@@ -39,6 +40,12 @@ public class GS extends Search{
 			    queue.add(expandednodes.get(j));
 			}
 		}
+	}
+
+	@Override
+	public SearchTreeNode begin() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

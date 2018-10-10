@@ -18,9 +18,7 @@ public class IDS extends Search {
 		this.root = root;
 		queue = new Stack<SearchTreeNode>();
 		queue.add(root);
-	}
-	public SearchTreeNode begin(){
-		return begin(0);
+		begin(0);
 	}
 
 	public SearchTreeNode begin(int depth) {
@@ -41,8 +39,8 @@ public class IDS extends Search {
 				intermidate.push(current);
 				if (current.getDepth() < depth) {
 					ArrayList<SearchTreeNode> expansion = expandNode(current);
-					System.out.println(expansion.size());
-					
+					//System.out.println(expansion.size());
+
 					for (int j = expansion.size() - 1; j >= 0; j--) {
 						temp.push(expansion.get(j));
 
@@ -58,6 +56,8 @@ public class IDS extends Search {
 
 			}
 		}
+		System.out.println(queue);
+
 		return begin(++depth);
 
 	}
