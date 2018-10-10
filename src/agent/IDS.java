@@ -18,7 +18,9 @@ public class IDS extends Search {
 		this.root = root;
 		queue = new Stack<SearchTreeNode>();
 		queue.add(root);
-		begin(0);
+	}
+	public SearchTreeNode begin(){
+		return begin(0);
 	}
 
 	public SearchTreeNode begin(int depth) {
@@ -83,4 +85,6 @@ public class IDS extends Search {
 //		IDS ids = new IDS(n1, null);
 //		ids.begin(0);
 //	}
+
+
 }

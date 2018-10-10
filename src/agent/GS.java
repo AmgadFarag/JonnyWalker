@@ -42,10 +42,5 @@ public class GS extends Search{
 		}
 	}
 
-	@Override
-	public SearchTreeNode begin() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
