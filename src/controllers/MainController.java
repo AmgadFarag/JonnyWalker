@@ -38,8 +38,8 @@ public class MainController implements WorldListener{
 		case "UC" : search = new UCS(root); root.setSearchType("UCS");break;
 		case "GR1": search = new GS(1,root); root.setSearchType("Greedy"); break;
 		case "GR2": search = new GS(2,root); root.setSearchType("Greedy"); break;
-		case "AS1": search = new AS(1); root.setSearchType("AS"); break;
-		case "AS2": search = new AS(2); root.setSearchType("AS"); break;
+		case "AS1": search = new AS(1,root); root.setSearchType("AS"); break;
+		case "AS2": search = new AS(2,root); root.setSearchType("AS"); break;
 		default : search = new BFS(root); break;
 		}
 		
