@@ -40,7 +40,7 @@ public class IDS extends Search {
 				if (current.getDepth() < depth) {
 					ArrayList<SearchTreeNode> expansion = expandNode(current);
 					//System.out.println(expansion.size());
-					
+
 					for (int j = expansion.size() - 1; j >= 0; j--) {
 						temp.push(expansion.get(j));
 
@@ -57,6 +57,7 @@ public class IDS extends Search {
 			}
 		}
 		System.out.println(queue);
+
 		return begin(++depth);
 
 	}
