@@ -97,7 +97,7 @@ public class MainController implements WorldListener{
 		System.out.println("Grid Generated, starting search ......");
 		Object[] ret;
 		try{
-			ret = ct.Search(grid, "UC", false);
+			ret = ct.Search(grid, "BF", false);
 			System.out.println("Search Complete");
 			
 			for(int i=0; i<((ArrayList<SearchTreeNode>)ret[0]).size(); i++)

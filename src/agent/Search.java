@@ -146,20 +146,7 @@ public abstract class Search {
 					Operator.UP, node.getDepth()+1,
 					Operator.costOfOperator(Operator.UP)+node.getPathCost()));
 		}
-		if(world.ifMoveDown() && node.getOperatorApplied() != Operator.UP){
-			//DOWN
-			MiniMap newMap = new MiniMap(world.mapM, world.mapN,
-					world.MAX_DRAGON_GLASS, world.stones,
-					world.walkers, world.obstacles,
-					world.x, world.y, world.dragonGlass);
-			newMap.x++;
-			if(node.getOperatorApplied() == Operator.KILL)
-				newMap.dragonGlass--;
-			
-			result.add(new SearchTreeNode(newMap, normalState, node,
-					Operator.DOWN, node.getDepth()+1,
-					Operator.costOfOperator(Operator.DOWN)+node.getPathCost()));
-		}
+		
 		if(world.ifMoveLeft() && node.getOperatorApplied() != Operator.RIGHT){
 			//LEFT
 			MiniMap newMap = new MiniMap(world.mapM, world.mapN,
@@ -173,6 +160,20 @@ public abstract class Search {
 			result.add(new SearchTreeNode(newMap, normalState, node, 
 					Operator.LEFT, node.getDepth()+1, 
 					Operator.costOfOperator(Operator.LEFT)+node.getPathCost()));
+		}
+		if(world.ifMoveDown() && node.getOperatorApplied() != Operator.UP){
+			//DOWN
+			MiniMap newMap = new MiniMap(world.mapM, world.mapN,
+					world.MAX_DRAGON_GLASS, world.stones,
+					world.walkers, world.obstacles,
+					world.x, world.y, world.dragonGlass);
+			newMap.x++;
+			if(node.getOperatorApplied() == Operator.KILL)
+				newMap.dragonGlass--;
+			
+			result.add(new SearchTreeNode(newMap, normalState, node,
+					Operator.DOWN, node.getDepth()+1,
+					Operator.costOfOperator(Operator.DOWN)+node.getPathCost()));
 		}
 		if(world.ifMoveRight() && node.getOperatorApplied() != Operator.LEFT){
 			//RIGHT
