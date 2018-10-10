@@ -17,7 +17,6 @@ public class UCS extends Search{
 		this.root = root;
 		queue = new PriorityQueue<SearchTreeNode>();
 		queue.add(root);
-		begin();
 	}
 	
 	public SearchTreeNode begin() {
@@ -27,7 +26,7 @@ public class UCS extends Search{
 				return null;
 			}
 			SearchTreeNode current = queue.poll();
-			System.out.println(current);
+			//System.out.println(current);
 			if (isGoal(current))
 					return current;
 		    ArrayList<SearchTreeNode> expandednodes = expandNode(current);

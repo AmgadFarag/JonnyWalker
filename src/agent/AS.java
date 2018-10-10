@@ -16,8 +16,6 @@ public class AS extends Search{
 		root.setHeursticCost(heuristic ==1 ? heuristic1(root) :heuristic2(root));
 		queue = new PriorityQueue<SearchTreeNode>();
 		queue.add(root);
-		begin();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
