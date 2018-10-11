@@ -1,27 +1,24 @@
 package agent;
 
-import models.MiniMap;
-import models.WorldHandler;
-
 import java.util.ArrayList;
 import java.util.Stack;
 
-import agent.structures.Operator;
 import agent.structures.SearchTreeNode;
-import agent.structures.State;
-//result[0] b null, check for it
+
 public class IDS extends Search {
-	private SearchTreeNode root;
+	private int depth;
 	private Stack<SearchTreeNode> queue;
 
 	public IDS(SearchTreeNode root) {
 		this.root = root;
 		queue = new Stack<SearchTreeNode>();
 		queue.add(root);
-		begin(0);
+		depth = 0;
+		begin();
 	}
 
-	public SearchTreeNode begin(int depth) {
+	//result[0] b null, check for it
+	public SearchTreeNode begin() {
 		if (queue.isEmpty())
 			return null;
 		Stack<SearchTreeNode> temp = new Stack<SearchTreeNode>();
@@ -32,6 +29,7 @@ public class IDS extends Search {
 				if (isGoal(current))
 					return current;
 				temp.push(current);
+				cumelativeExpansions++;
 			}
 			while (!temp.isEmpty()) {
 				Stack<SearchTreeNode> intermidate = new Stack<SearchTreeNode>();
@@ -43,6 +41,7 @@ public class IDS extends Search {
 
 					for (int j = expansion.size() - 1; j >= 0; j--) {
 						temp.push(expansion.get(j));
+						cumelativeExpansions++;
 
 					}
 				}
@@ -50,15 +49,16 @@ public class IDS extends Search {
 					
 					while(!intermidate.isEmpty())
 					queue.push(intermidate.pop());
+					cumelativeExpansions++;
 					
 						
 				}
 
 			}
 		}
-		System.out.println(queue);
-
-		return begin(++depth);
+		//System.out.println(queue);
+		depth++;
+		return begin();
 
 	}
 //	public static void main(String[] args) {

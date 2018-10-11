@@ -7,7 +7,6 @@ import java.util.PriorityQueue;
 import agent.structures.SearchTreeNode;
 
 public class GS extends Search{
-	private SearchTreeNode root;
 	private PriorityQueue<SearchTreeNode> queue;
 	private int heuristic;
 	
@@ -39,14 +38,9 @@ public class GS extends Search{
 				if(heuristic == 2)
 					curr.setHeursticCost(heuristic2(curr));
 			    queue.add(expandednodes.get(j));
+				cumelativeExpansions++;
 			}
 		}
-	}
-
-	@Override
-	public SearchTreeNode begin() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

@@ -5,7 +5,6 @@ import java.util.LinkedList;
 
 import agent.structures.SearchTreeNode;
 
-
 public class BFS extends Search{
 	private static LinkedList<SearchTreeNode> queue;
 
@@ -36,7 +35,7 @@ public class BFS extends Search{
 				cumelativeExpansions++;
 			}
 
-		System.out.println(queue);		
+		//System.out.println(queue);		
 		return begin();
 	}
 

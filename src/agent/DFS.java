@@ -34,7 +34,7 @@ public class DFS extends Search{
 			cumelativeExpansions++;
 		}
 		
-		System.out.println(queue);
+		//System.out.println(queue);
 		return begin();
 	}
 

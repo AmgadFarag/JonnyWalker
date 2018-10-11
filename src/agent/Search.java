@@ -21,7 +21,8 @@ public abstract class Search {
 	
 
 	public static boolean isGoal(SearchTreeNode node){
-		if(node.getState().walkersLeft <= 0)
+		if(node.getState().walkersLeft <= 0 
+				|| node.getWorldState().walkers.size() <= 0)
 			return true;
 		return false;
 	}
@@ -114,7 +115,7 @@ public abstract class Search {
 		int walkersLeft = current.walkersLeft;
 		boolean localGoal = current.localGoal;
 		boolean canAttak = (node.getOperatorApplied() == Operator.KILL ||
-				world.dragonGlass >= 1);
+				world.dragonGlass > 0);
 
 		State normalState = new State(walkersLeft, localGoal);
 		State killState = new State(walkersLeft--, localGoal);
@@ -131,6 +132,27 @@ public abstract class Search {
 			normalState = new State(walkersLeft, false);
 			killState = new State(walkersLeft, false);
 		}*/
+		
+
+		if(world.ifAttack() && canAttak){
+			//Kill
+			MiniMap newMap = world;
+			newMap.kill();
+			result.add(new SearchTreeNode(newMap, killState, node, Operator.KILL, 
+					node.getDepth()+1, Operator.costOfOperator(Operator.KILL)+node.getPathCost(),
+					node.getSearchType()));
+			System.out.println(result);
+		}
+
+		if(world.ifPickUp()/* && localGoal*/){
+			//Pickup
+			MiniMap newMap = world;
+			newMap.dragonGlass = world.MAX_DRAGON_GLASS;
+			result.add(new SearchTreeNode(newMap, pickupState, node, Operator.PICKUP, 
+				node.getDepth()+1, Operator.costOfOperator(Operator.PICKUP)+node.getPathCost(),
+				node.getSearchType()));
+			System.out.println(result);
+		}
 
 		if(world.ifMoveUp() && node.getOperatorApplied() != Operator.DOWN){
 			//UP
@@ -144,7 +166,8 @@ public abstract class Search {
             
 			result.add(new SearchTreeNode(newMap, normalState, node, 
 					Operator.UP, node.getDepth()+1,
-					Operator.costOfOperator(Operator.UP)+node.getPathCost(), node.getSearchType()));
+					Operator.costOfOperator(Operator.UP)+node.getPathCost(),
+					node.getSearchType()));
 		}
 		
 		if(world.ifMoveLeft() && node.getOperatorApplied() != Operator.RIGHT){
@@ -159,9 +182,10 @@ public abstract class Search {
 			
 			result.add(new SearchTreeNode(newMap, normalState, node, 
 					Operator.LEFT, node.getDepth()+1, 
-					Operator.costOfOperator(Operator.DOWN)+node.getPathCost(), node.getSearchType()));
-
+					Operator.costOfOperator(Operator.DOWN)+node.getPathCost(),
+					node.getSearchType()));
 		}
+
 		if(world.ifMoveDown() && node.getOperatorApplied() != Operator.UP){
 			//DOWN
 			MiniMap newMap = new MiniMap(world.mapM, world.mapN,
@@ -174,9 +198,10 @@ public abstract class Search {
 
 			result.add(new SearchTreeNode(newMap, normalState, node,
 					Operator.DOWN, node.getDepth()+1,
-					Operator.costOfOperator(Operator.LEFT)+node.getPathCost(), node.getSearchType()));
-
+					Operator.costOfOperator(Operator.LEFT)+node.getPathCost(),
+					node.getSearchType()));
 		}
+
 		if(world.ifMoveRight() && node.getOperatorApplied() != Operator.LEFT){
 			//RIGHT
 			MiniMap newMap = new MiniMap(world.mapM, world.mapN,
@@ -189,23 +214,10 @@ public abstract class Search {
 			
 			result.add(new SearchTreeNode(newMap, normalState, node,
 					Operator.RIGHT, node.getDepth()+1, 
-					Operator.costOfOperator(Operator.RIGHT)+node.getPathCost(), node.getSearchType()));
+					Operator.costOfOperator(Operator.RIGHT)+node.getPathCost(),
+					node.getSearchType()));
 		}
 		
-		if(world.ifAttack() && !localGoal && canAttak){
-			//Kill
-			MiniMap newMap = world;
-			newMap.kill();
-			result.add(new SearchTreeNode(newMap, killState, node, Operator.KILL, 
-					node.getDepth()+1, Operator.costOfOperator(Operator.KILL)+node.getPathCost(), node.getSearchType()));
-		}
-		if(world.ifPickUp() && localGoal){
-			//Pickup
-			MiniMap newMap = world;
-			newMap.dragonGlass = world.MAX_DRAGON_GLASS;
-			result.add(new SearchTreeNode(newMap, pickupState, node, Operator.PICKUP, 
-				node.getDepth()+1, Operator.costOfOperator(Operator.PICKUP)+node.getPathCost(), node.getSearchType()));
-		}
 		return result;
 	}
 
@@ -216,8 +228,7 @@ public abstract class Search {
 			result.add(i, current);
 			try{
 				current = current.getParent();
-			}catch(NullPointerException e){
-			}
+			}catch(NullPointerException e){ }
 		}
 		return result;
 	}
@@ -242,7 +253,6 @@ public abstract class Search {
 			tempX = node.getWorldState().walkers.get(i)[0];
 			tempY = node.getWorldState().walkers.get(i)[1];
 		}
-		
 		return cost;
 	}
 	
