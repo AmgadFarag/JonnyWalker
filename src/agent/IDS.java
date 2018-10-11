@@ -14,7 +14,6 @@ public class IDS extends Search {
 		queue = new Stack<SearchTreeNode>();
 		queue.add(root);
 		depth = 0;
-		begin();
 	}
 
 	//result[0] b null, check for it

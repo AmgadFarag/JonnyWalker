@@ -3,7 +3,6 @@ package agent;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-
 import agent.structures.SearchTreeNode;
 
 public class AS extends Search{
@@ -16,13 +15,10 @@ public class AS extends Search{
 		root.setHeursticCost(heuristic ==1 ? heuristic1(root) :heuristic2(root));
 		queue = new PriorityQueue<SearchTreeNode>();
 		queue.add(root);
-		begin();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public SearchTreeNode begin() {
-
 		while(true){
 			if(queue.isEmpty()){
 				System.out.println("no more moves -GS");

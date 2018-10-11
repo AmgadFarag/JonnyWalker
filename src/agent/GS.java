@@ -1,8 +1,8 @@
+
 package agent;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-
 
 import agent.structures.SearchTreeNode;
 
@@ -16,7 +16,6 @@ public class GS extends Search{
 		root.setHeursticCost(heuristic ==1 ? heuristic1(root) :heuristic2(root));
 		queue = new PriorityQueue<SearchTreeNode>();
 		queue.add(root);
-		begin();
 	}
 
 	@Override

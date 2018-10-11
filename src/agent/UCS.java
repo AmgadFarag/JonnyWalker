@@ -37,4 +37,3 @@ public class UCS extends Search{
 		return begin();
 	}
 }
-
