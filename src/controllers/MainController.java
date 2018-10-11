@@ -1,7 +1,13 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.ToolProvider;
+
+import view.View;
 import agent.*;
 import agent.structures.SearchTreeNode;
 import agent.structures.State;
@@ -13,6 +19,7 @@ import models.WorldListener;
 public class MainController implements WorldListener{
 	public WorldHandler world;
 	public GenGrid grid;
+	public View view;
 	
 	public GenGrid GenGrid(){
 		grid = new GenGrid();
@@ -55,13 +62,15 @@ public class MainController implements WorldListener{
 			returns[2] = (int)search.getCumelativeExpansions();
 		
 			if(visualize)
-				visual((SearchTreeNode[]) returns[0]);
+				visual((ArrayList<SearchTreeNode>) returns[0]);
 		}
 		return returns;
 	}
 
-	public void visual(SearchTreeNode[] trace){
-		//world = new WorldHandler(this, grid);
+	public void visual(ArrayList<SearchTreeNode> trace){
+		world = new WorldHandler(this, grid);
+		view = new View(world, trace);
+
 		return;
 	}
 	
@@ -92,20 +101,123 @@ public class MainController implements WorldListener{
 	
 	public static void main(String[] args) {
 		MainController ct = new MainController();
-		System.out.println("Soft Start");
-		GenGrid grid = ct.GenGrid();
-		System.out.println("Grid Generated, starting search ......");
-		Object[] ret;
-		try{
-			ret = ct.Search(grid, "BF", false);
-			System.out.println("Search Complete");
+		Scanner scan = new Scanner(System.in);
+		GenGrid grid = null;
+		Object[] ret = new Object[3];
+		ret[0] = new ArrayList<SearchTreeNode>();
+		ret[1] = 0;
+		ret[2] = 0;
+		boolean compute = true;
+		System.out.println("Soft Start Complete, Welcome");
+		while(compute){
+			System.out.println("Options: -- 'GenGrid' to generate the grid"+"\n"+
+					" -- 'ViewGrid' to preview the grid"+"\n"+
+					" -- 'Search(ALGORITHM, VISUAL)' to start searching for a solution:"+"\n"+
+					"where ALGORITHM is BF, DF, ID, UC, GR1, GR2, AS1, AS2"+"\n"+
+					"and VISUAL is True to visualise, False to print solution only"+"\n"+
+					" -- 'Exit' to quit");
+			String input = scan.nextLine();
+
+			if(input.contains("Exit") || input.contains("exit"))
+				compute = false;
 			
-			for(int i=0; i<((ArrayList<SearchTreeNode>)ret[0]).size(); i++)
-				System.out.println(((ArrayList<SearchTreeNode>)ret[0]).get(i).toString());
-		}catch(Exception e){
-			System.out.println("Search Fail");
-			System.out.println(e.getMessage());
+			if(input.contains("Gen") || input.contains("gen")){
+				grid = ct.GenGrid();
+				System.out.println("Grid Generated");
+			}
+			
+			if(input.contains("View") || input.contains("view"))
+				ct.visual(null);
+
+			if(input.contains("Search") || input.contains("search")){
+				if(grid == null)
+					System.out.println("You can't search in an empty space, Please use GenGrid first");
+				else{
+					boolean visual = input.contains("true") || input.contains("True");
+				
+					if(input.contains("BF")){
+						try{
+							ret = ct.Search(grid, "BF", visual);
+							System.out.println("Search Complete");
+						}catch(Exception e){
+							System.out.println("Search Fail");
+							System.out.println(e.getMessage());
+						}
+					}
+					if(input.contains("DF")){
+						try{
+							ret = ct.Search(grid, "DF", visual);
+							System.out.println("Search Complete");
+						}catch(Exception e){
+							System.out.println("Search Fail");
+							System.out.println(e.getMessage());
+						}
+					}
+					if(input.contains("UC")){
+						try{
+							ret = ct.Search(grid, "UC", visual);
+							System.out.println("Search Complete");
+						}catch(Exception e){
+							System.out.println("Search Fail");
+							System.out.println(e.getMessage());
+						}
+					}
+					if(input.contains("ID")){
+						try{
+							ret = ct.Search(grid, "ID", visual);
+							System.out.println("Search Complete");
+						}catch(Exception e){
+							System.out.println("Search Fail");
+							System.out.println(e.getMessage());
+						}
+					}
+					if(input.contains("GR1")){
+						try{
+							ret = ct.Search(grid, "GR1", visual);
+							System.out.println("Search Complete");
+						}catch(Exception e){
+							System.out.println("Search Fail");
+							System.out.println(e.getMessage());
+						}
+					}
+					if(input.contains("GR2")){
+						try{
+							ret = ct.Search(grid, "GR2", visual);
+							System.out.println("Search Complete");
+						}catch(Exception e){
+							System.out.println("Search Fail");
+							System.out.println(e.getMessage());
+						}
+					}
+					if(input.contains("AS1")){
+						try{
+							ret = ct.Search(grid, "AS1", visual);
+							System.out.println("Search Complete");
+						}catch(Exception e){
+							System.out.println("Search Fail");
+							System.out.println(e.getMessage());
+						}
+					}
+					if(input.contains("AS2")){
+						try{
+							ret = ct.Search(grid, "AS2", visual);
+							System.out.println("Search Complete");
+						}catch(Exception e){
+							System.out.println("Search Fail");
+							System.out.println(e.getMessage());
+						}
+					}
+					try{
+						for(int i=0; i<((ArrayList<SearchTreeNode>)ret[0]).size(); i++)
+							System.out.println(((ArrayList<SearchTreeNode>)ret[0]).get(i).toString());
+					}catch(Exception e){
+						System.out.println("Search Fail");
+						System.out.println(e.getMessage());
+					}
+				}
+			}
 		}
+		scan.close();
 	}
 
 }

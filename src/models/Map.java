@@ -26,20 +26,25 @@ public class Map {
 		walkers = walker;
 		stones = stone;
 		obstacles = obstacle;
-		map = new EmptyCell[mapM][mapN];
+		map = new MapCell[mapM][mapN];
+		for(int i=0; i<mapM; i++){
+			map[i] = new MapCell[mapN];
+			for(int j=0; j<mapN; j++)
+				map[i][j] = new EmptyCell();
+		}
 		
 		populateMap();
 	}
 	
 	public void populateMap(){
-		for(int i=0; i<walkers.size(); i++)
-			map[walkers.get(i)[0]][walkers.get(i)[1]] = new WalkerCell();
+		for(int[] walk : walkers)
+			map[walk[0]][walk[1]] = new WalkerCell();
 		
-		for(int i=0; i<stones.size(); i++)
-			map[stones.get(i)[0]][stones.get(i)[1]] = new DragonStoneCell();
+		for(int[] sto : stones)
+			map[sto[0]][sto[1]] = new DragonStoneCell();
 		
-		for(int i=0; i<obstacles.size(); i++)
-			map[obstacles.get(i)[0]][obstacles.get(i)[1]] = new ObstacleCell();
+		for(int[] obs : obstacles)
+			map[obs[0]][obs[1]] = new ObstacleCell();
 	}
 	
 	

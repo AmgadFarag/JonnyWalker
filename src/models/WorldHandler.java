@@ -16,8 +16,8 @@ public class WorldHandler implements MapListener{
 		
 		map = new Map(grid.mapM, grid.mapN, grid.walkers, grid.stones, grid.obstacles);
 		jon = new Jon(grid.MAX_DRAGON_GLASS);
-		jon.setX(map.mapM);
-		jon.setY(map.mapN);
+		jon.setX(map.mapM-1);
+		jon.setY(map.mapN-1);
 	}
 
 	public int ifAttack() {

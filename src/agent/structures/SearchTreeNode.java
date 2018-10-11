@@ -35,14 +35,48 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
 		
 	}
 	
+
+	@Override
+    public int compareTo(SearchTreeNode n) {
+		switch (searchType) {
+		case "UCS":
+			if(this.pathCost != n.pathCost)
+	      		return (this.pathCost > n.pathCost)? 1 : -1;
+	      		
+		case "Greedy":
+			if(this.heursticCost != n.heursticCost)
+	      		return (this.heursticCost > n.heursticCost)? 1 : -1;
+	      		
+		case "AS":
+		    int combineda = heursticCost + pathCost;
+		    int combinedb = n.heursticCost + n.pathCost;
+			if(combineda != combinedb)
+	      		return (combineda > combinedb)? 1 : -1;
+	      		
+		default: break;
+		}
+		
+		return (this.seqnum > n.seqnum)? 1 : -1;
+	} 
+		
+
+	public String toString(){
+		String s = "Label: "+/*myLabel*/seqnum+" After ";
+		s+=(operatorApplied!=null)? operatorApplied.toString():" NOTHING";
+		s+=" Cost "+pathCost;
+		return s;
+	}
+
+	public void setSearchType(String string) {
+		this.searchType = string;
+		
+	}
 	public int getHeursticCost() {
 		return heursticCost;
 	}
-
 	public void setHeursticCost(int heursticCost) {
 		this.heursticCost = heursticCost;
 	}
-
 	public MiniMap getWorldState() {
 		return worldState;
 	}
@@ -61,47 +95,4 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
 	public int getPathCost() {
 		return pathCost;
 	}
-
-	@Override
-    public int compareTo(SearchTreeNode n) {
-		switch (searchType) {
-		case "UCS":
-			if(this.pathCost == n.pathCost)
-	       	 	return this.seqnum > n.seqnum ? 1 : -1;
-	       	else
-	      		return this.pathCost > n.pathCost ? 1 : -1;
-		case "Greedy":
-			if(this.heursticCost == n.heursticCost)
-	       	 	return this.seqnum > n.seqnum ? 1 : -1;
-	       	else
-	      		return this.heursticCost > n.heursticCost ? 1 : -1;
-		case "AS":
-		    int combineda = heursticCost + pathCost;
-		    int combinedb = n.heursticCost + n.pathCost;
-			if(combineda == combinedb)
-	       	 	return this.seqnum > n.seqnum ? 1 : -1;
-	       	else
-	      		return combineda > combinedb ? 1 : -1;
-		case "":
-			break;
-		}
-			
-		return 0;
-
-		} 
-			
-       
-
-	public String toString(){
-		String s = "Label: "+/*myLabel*/seqnum+" After ";
-		s+=(operatorApplied!=null)? operatorApplied.toString():" NOTHING";
-		s+=" Costing "+pathCost;
-		return s;
-	}
-
-	public void setSearchType(String string) {
-		this.searchType = string;
-		
-	}
-	
 }
