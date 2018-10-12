@@ -52,7 +52,7 @@ public class View extends JFrame implements ActionListener{
         this.getContentPane().setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);           
         setSize(1000,700);
-		this.getContentPane().add(topPanel, BorderLayout.NORTH);
+		this.getContentPane().add(topPanel, BorderLayout.CENTER);
 		this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
 	}
 
@@ -82,8 +82,11 @@ public class View extends JFrame implements ActionListener{
 		for(int i=0; i<colNam.length; i++)
 			colNam[i] = " ";
 		table = new JTable(data, colNam);
-		table.setRowHeight(20);
-		table.setRowMargin(20);
+		table.setRowSelectionAllowed(false);
+		table.setRowHeight(10);
+		//table.setFillsViewportHeight(true);
+		for(int i=0; i<table.getColumnCount(); i++)
+			table.getColumnModel().getColumn(i).setPreferredWidth(2);
 		//table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		topPanel.add(table, BorderLayout.CENTER);
 	}
