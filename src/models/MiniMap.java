@@ -50,7 +50,7 @@ public class MiniMap {
 	}
 
 	public boolean ifPickUp() {
-		if(dragonGlass>0)
+		if(dragonGlass<=0)
 			for(int[] st : stones){
 				if((st[0] == x && st[1]+1 == y) ||
 						(st[0] == x && st[1]-1 == y) ||

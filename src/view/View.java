@@ -9,8 +9,10 @@ import javafx.scene.control.TableCell;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import agent.structures.SearchTreeNode;
 import models.WorldHandler;
@@ -33,7 +35,7 @@ public class View extends JFrame implements ActionListener{
 		world = wrd;
 		trace = trc;
 		
-
+		JPanel marginPanel = new JPanel();
 		topPanel = new JPanel(new BorderLayout());
 		bottomPanel = new JPanel(new BorderLayout());
 		
@@ -51,7 +53,9 @@ public class View extends JFrame implements ActionListener{
         this.setVisible(true);
         this.getContentPane().setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);           
-        setSize(1000,700);
+        setSize(1500,500);
+        this.getContentPane().add(marginPanel, BorderLayout.EAST);
+        this.getContentPane().add(marginPanel, BorderLayout.WEST);
 		this.getContentPane().add(topPanel, BorderLayout.CENTER);
 		this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
 	}
