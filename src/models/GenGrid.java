@@ -39,11 +39,11 @@ public class GenGrid {
 		MAX_DRAGON_GLASS = (int) (Math.random()*MAX_WALKERS/2) + 1;
 		int[][] map = new int[mapM][mapN];
 		
-		System.out.println("Index Gen");
+		System.out.println("Index Gen Start");
 		for(int i=0; i<MAX_WALKERS; i++){
 			int tempM = (int)(Math.random()*mapM + 1);
 			int tempN = (int)(Math.random()*mapN + 1);
-			if(tempM != mapM && tempN != mapN){
+			if(tempM != mapM && tempN != mapN && map[tempM][tempN] != 1){
 				map[tempM][tempN] = 1;
 				int[] ar = new int[2];
 				ar[0] = tempM;

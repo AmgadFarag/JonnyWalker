@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
@@ -56,18 +57,18 @@ public class MainController implements WorldListener{
 			returns[1] = 1000;
 			returns[2] = search.getCumelativeExpansions();
 		}else{
-		
-			returns[0] = (ArrayList<SearchTreeNode>)Search.backTrack(goal);
+			System.out.println(goal);
+			returns[0] = (Stack<SearchTreeNode>)Search.backTrack(goal);
 			returns[1] = (int)goal.getPathCost();
 			returns[2] = (int)search.getCumelativeExpansions();
 		
 			if(visualize)
-				visual((ArrayList<SearchTreeNode>) returns[0]);
+				visual((Stack<SearchTreeNode>) returns[0]);
 		}
 		return returns;
 	}
 
-	public void visual(ArrayList<SearchTreeNode> trace){
+	public void visual(Stack<SearchTreeNode> trace){
 		world = new WorldHandler(this, grid);
 		view = new View(world, trace);
 
@@ -154,13 +155,13 @@ public class MainController implements WorldListener{
 						}
 					}
 					if(input.contains("UC")){
-						try{
+						//try{
 							ret = ct.Search(grid, "UC", visual);
 							System.out.println("Search Complete");
-						}catch(Exception e){
-							System.out.println("Search Fail");
-							System.out.println(e.getMessage());
-						}
+						//}catch(Exception e){
+							//System.out.println("Search Fail");
+							//System.out.println(e.getMessage());
+						//}
 					}
 					if(input.contains("ID")){
 						try{
@@ -208,8 +209,8 @@ public class MainController implements WorldListener{
 						}
 					}
 					try{
-						for(int i=0; i<((ArrayList<SearchTreeNode>)ret[0]).size(); i++)
-							System.out.println(((ArrayList<SearchTreeNode>)ret[0]).get(i).toString());
+						for(int i=0; i<((Stack<SearchTreeNode>)ret[0]).size(); i++)
+							System.out.println(((Stack<SearchTreeNode>)ret[0]).pop().toString());
 					}catch(Exception e){
 						System.out.println("Search Fail");
 						System.out.println(e.getMessage());
@@ -218,6 +219,7 @@ public class MainController implements WorldListener{
 			}
 		}
 		scan.close();
+		System.exit(0);
 	}
 
 }

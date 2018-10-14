@@ -1,6 +1,7 @@
 package agent;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import models.MiniMap;
 import agent.structures.Operator;
@@ -141,7 +142,6 @@ public abstract class Search {
 			result.add(new SearchTreeNode(newMap, killState, node, Operator.KILL, 
 					node.getDepth()+1, Operator.costOfOperator(Operator.KILL)+node.getPathCost(),
 					node.getSearchType()));
-			System.out.println(result);
 		}
 
 		if(world.ifPickUp()/* && localGoal*/){
@@ -151,7 +151,6 @@ public abstract class Search {
 			result.add(new SearchTreeNode(newMap, pickupState, node, Operator.PICKUP, 
 				node.getDepth()+1, Operator.costOfOperator(Operator.PICKUP)+node.getPathCost(),
 				node.getSearchType()));
-			System.out.println(result);
 		}
 
 		if(world.ifMoveUp() && node.getOperatorApplied() != Operator.DOWN){
@@ -221,11 +220,11 @@ public abstract class Search {
 		return result;
 	}
 
-	public static ArrayList<SearchTreeNode> backTrack(SearchTreeNode node){
-		ArrayList<SearchTreeNode> result = new ArrayList<SearchTreeNode>(node.getDepth()+1);
+	public static Stack<SearchTreeNode> backTrack(SearchTreeNode node){
+		Stack<SearchTreeNode> result = new Stack<SearchTreeNode>();
 		SearchTreeNode current = node;
 		for(int i=node.getDepth(); i>=0; i--){
-			result.add(i, current);
+			result.push(current);
 			try{
 				current = current.getParent();
 			}catch(NullPointerException e){ }

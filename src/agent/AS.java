@@ -25,7 +25,7 @@ public class AS extends Search{
 				return null;
 			}
 			SearchTreeNode current = queue.poll();
-			System.out.println(current);
+			//System.out.println(current);
 			if (isGoal(current))
 					return current;
 		    ArrayList<SearchTreeNode> expandednodes = expandNode(current);

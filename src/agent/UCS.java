@@ -22,7 +22,7 @@ public class UCS extends Search{
 		}
 			
 		SearchTreeNode current = queue.poll();
-		System.out.println(current);
+		//System.out.println(current);
 		if (isGoal(current))
 			return current;
 		

@@ -3,17 +3,12 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
-import javafx.scene.control.TableCell;
+import java.util.Stack;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-
 import agent.structures.SearchTreeNode;
 import models.WorldHandler;
 import models.cells.DragonStoneCell;
@@ -25,13 +20,13 @@ import models.cells.WalkerCell;
 public class View extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private WorldHandler world;
-	private ArrayList<SearchTreeNode> trace;
+	private Stack<SearchTreeNode> trace;
 	private JButton next;
 	private JTable table;
 	private JPanel topPanel;
 	private JPanel bottomPanel;
 
-	public View(WorldHandler wrd, ArrayList<SearchTreeNode> trc) {
+	public View(WorldHandler wrd, Stack<SearchTreeNode> trc) {
 		world = wrd;
 		trace = trc;
 		
@@ -61,8 +56,15 @@ public class View extends JFrame implements ActionListener{
 	}
 
 	public void displayNode(SearchTreeNode current) {
-		// TODO Auto-generated method stub
-		
+		switch(current.getOperatorApplied()){
+		case DOWN: world.onMoveDown();break;
+		case UP: world.onMoveUp();break;
+		case LEFT: world.onMoveLeft();break;
+		case RIGHT: world.onMoveRight();break;
+		case KILL: world.onAttack();break;
+		case PICKUP: world.onPickUp();break;
+		}
+		refreshMap();
 	}
 	
 	private void refreshMap(){
@@ -100,7 +102,9 @@ public class View extends JFrame implements ActionListener{
 		if(event.getSource() instanceof JButton){
 			JButton temp = (JButton)event.getSource();
 			if(temp.getText().contains("Next")){
-				
+				try{
+					displayNode(trace.pop());
+				}catch(Exception e){}
 			}
 		}
 	}

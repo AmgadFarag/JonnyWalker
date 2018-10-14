@@ -182,5 +182,9 @@ public class WorldHandler implements MapListener{
 			listener.onHitDragonStoneCell();
 		}
 	}
+
+	public void onPickUp() {
+		jon.setDragonGlass(jon.getMAX_DRAGON_STONES());
+	}
 	
 }

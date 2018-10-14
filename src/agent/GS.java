@@ -22,7 +22,7 @@ public class GS extends Search{
 	public SearchTreeNode begin() {
 		while(true){
 			if(queue.isEmpty()){
-				System.out.println("no more moves -GS");
+				System.out.println("No more moves -GS");
 				return null;
 			}
 			SearchTreeNode current = queue.poll();
