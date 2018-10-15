@@ -1,12 +1,8 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.Stack;
-
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileObject;
-import javax.tools.ToolProvider;
 
 import view.View;
 import agent.*;
@@ -27,6 +23,7 @@ public class MainController implements WorldListener{
 		return grid;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Object[] Search(GenGrid grid, String strategy, boolean visualize){
 		Object [] returns= new Object[3];//[0] sequence - [1] cost - [2] number nodes
 		
@@ -58,17 +55,18 @@ public class MainController implements WorldListener{
 			returns[2] = search.getCumelativeExpansions();
 		}else{
 			System.out.println(goal);
-			returns[0] = (Stack<SearchTreeNode>)Search.backTrack(goal);
+			returns[0] = (LinkedList<SearchTreeNode>)Search.backTrack(goal);
 			returns[1] = (int)goal.getPathCost();
 			returns[2] = (int)search.getCumelativeExpansions();
+			
 		
 			if(visualize)
-				visual((Stack<SearchTreeNode>) returns[0]);
+				visual((LinkedList<SearchTreeNode>) returns[0]);
 		}
 		return returns;
 	}
 
-	public void visual(Stack<SearchTreeNode> trace){
+	public void visual(LinkedList<SearchTreeNode> trace){
 		world = new WorldHandler(this, grid);
 		view = new View(world, trace);
 
@@ -100,6 +98,7 @@ public class MainController implements WorldListener{
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		MainController ct = new MainController();
 		Scanner scan = new Scanner(System.in);
@@ -155,13 +154,13 @@ public class MainController implements WorldListener{
 						}
 					}
 					if(input.contains("UC")){
-						//try{
+						try{
 							ret = ct.Search(grid, "UC", visual);
 							System.out.println("Search Complete");
-						//}catch(Exception e){
-							//System.out.println("Search Fail");
-							//System.out.println(e.getMessage());
-						//}
+						}catch(Exception e){
+							System.out.println("Search Fail");
+							System.out.println(e.getMessage());
+						}
 					}
 					if(input.contains("ID")){
 						try{
@@ -208,13 +207,9 @@ public class MainController implements WorldListener{
 							System.out.println(e.getMessage());
 						}
 					}
-					try{
-						for(int i=0; i<((Stack<SearchTreeNode>)ret[0]).size(); i++)
-							System.out.println(((Stack<SearchTreeNode>)ret[0]).pop().toString());
-					}catch(Exception e){
-						System.out.println("Search Fail");
-						System.out.println(e.getMessage());
-					}
+					for(SearchTreeNode node :((LinkedList<SearchTreeNode>)ret[0]))
+						System.out.println(node);
+					//System.out.println("Search Fail");
 				}
 			}
 		}

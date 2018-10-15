@@ -1,6 +1,7 @@
 package agent;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 
 import models.MiniMap;
@@ -220,11 +221,11 @@ public abstract class Search {
 		return result;
 	}
 
-	public static Stack<SearchTreeNode> backTrack(SearchTreeNode node){
-		Stack<SearchTreeNode> result = new Stack<SearchTreeNode>();
+	public static LinkedList<SearchTreeNode> backTrack(SearchTreeNode node){
+		LinkedList<SearchTreeNode> result = new LinkedList<SearchTreeNode>();
 		SearchTreeNode current = node;
 		for(int i=node.getDepth(); i>=0; i--){
-			result.push(current);
+			result.addFirst(current);
 			try{
 				current = current.getParent();
 			}catch(NullPointerException e){ }

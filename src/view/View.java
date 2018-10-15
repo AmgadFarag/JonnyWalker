@@ -3,12 +3,12 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Stack;
-
+import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+
 import agent.structures.SearchTreeNode;
 import models.WorldHandler;
 import models.cells.DragonStoneCell;
@@ -20,15 +20,15 @@ import models.cells.WalkerCell;
 public class View extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private WorldHandler world;
-	private Stack<SearchTreeNode> trace;
+	private LinkedList<SearchTreeNode> trace;
 	private JButton next;
 	private JTable table;
 	private JPanel topPanel;
 	private JPanel bottomPanel;
 
-	public View(WorldHandler wrd, Stack<SearchTreeNode> trc) {
+	public View(WorldHandler wrd, LinkedList<SearchTreeNode> trace2) {
 		world = wrd;
-		trace = trc;
+		trace = trace2;
 		
 		JPanel marginPanel = new JPanel();
 		topPanel = new JPanel(new BorderLayout());
