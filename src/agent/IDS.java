@@ -24,7 +24,7 @@ public class IDS extends Search {
 		for (int i = 0; i <= depth; i++) {
 			while (!queue.isEmpty()) {
 				SearchTreeNode current = queue.pop();
-				//System.out.println(current.getDepth()+", " + current);
+				System.out.println(current);
 				if (isGoal(current))
 					return current;
 				temp.push(current);

@@ -119,8 +119,9 @@ public abstract class Search {
 		boolean canAttak = (node.getOperatorApplied() == Operator.KILL ||
 				world.dragonGlass > 0);
 
+		int walkersAfterKill = walkersLeft -1;
 		State normalState = new State(walkersLeft, localGoal);
-		State killState = new State(walkersLeft--, localGoal);
+		State killState = new State(walkersAfterKill, localGoal);
 		State pickupState = new State(walkersLeft, true);
 
 		
@@ -135,19 +136,19 @@ public abstract class Search {
 			killState = new State(walkersLeft, false);
 		}*/
 		
-
+		
+		
 		if(world.ifAttack() && canAttak){
 			//Kill
-			MiniMap newMap = world;
+			MiniMap newMap = new MiniMap(world);
 			newMap.kill();
 			result.add(new SearchTreeNode(newMap, killState, node, Operator.KILL, 
 					node.getDepth()+1, Operator.costOfOperator(Operator.KILL)+node.getPathCost(),
 					node.getSearchType()));
 		}
-
 		if(world.ifPickUp()/* && localGoal*/){
 			//Pickup
-			MiniMap newMap = world;
+			MiniMap newMap = new MiniMap(world);
 			newMap.dragonGlass = world.MAX_DRAGON_GLASS;
 			result.add(new SearchTreeNode(newMap, pickupState, node, Operator.PICKUP, 
 				node.getDepth()+1, Operator.costOfOperator(Operator.PICKUP)+node.getPathCost(),
@@ -156,11 +157,8 @@ public abstract class Search {
 
 		if(world.ifMoveUp() && node.getOperatorApplied() != Operator.DOWN){
 			//UP
-			MiniMap newMap = new MiniMap(world.mapM, world.mapN,
-					world.MAX_DRAGON_GLASS, world.stones,
-					world.walkers, world.obstacles,
-					world.x, world.y, world.dragonGlass);
-			newMap.x--;
+			MiniMap newMap = new MiniMap(world);
+			newMap.y--;
 			if(node.getOperatorApplied() == Operator.KILL)
 				newMap.dragonGlass--;
             
@@ -172,11 +170,8 @@ public abstract class Search {
 		
 		if(world.ifMoveLeft() && node.getOperatorApplied() != Operator.RIGHT){
 			//LEFT
-			MiniMap newMap = new MiniMap(world.mapM, world.mapN,
-					world.MAX_DRAGON_GLASS, world.stones,
-					world.walkers, world.obstacles,
-					world.x, world.y, world.dragonGlass);
-			newMap.y--;
+			MiniMap newMap = new MiniMap(world);
+			newMap.x--;
 			if(node.getOperatorApplied() == Operator.KILL)
 				newMap.dragonGlass--;
 			
@@ -188,11 +183,8 @@ public abstract class Search {
 
 		if(world.ifMoveDown() && node.getOperatorApplied() != Operator.UP){
 			//DOWN
-			MiniMap newMap = new MiniMap(world.mapM, world.mapN,
-					world.MAX_DRAGON_GLASS, world.stones,
-					world.walkers, world.obstacles,
-					world.x, world.y, world.dragonGlass);
-			newMap.x++;
+			MiniMap newMap = new MiniMap(world);
+			newMap.y++;
 			if(node.getOperatorApplied() == Operator.KILL)
 				newMap.dragonGlass--;
 
@@ -204,11 +196,8 @@ public abstract class Search {
 
 		if(world.ifMoveRight() && node.getOperatorApplied() != Operator.LEFT){
 			//RIGHT
-			MiniMap newMap = new MiniMap(world.mapM, world.mapN,
-					world.MAX_DRAGON_GLASS, world.stones,
-					world.walkers, world.obstacles,
-					world.x, world.y, world.dragonGlass);
-			newMap.y++;
+			MiniMap newMap = new MiniMap(world);
+			newMap.x++;
 			if(node.getOperatorApplied() == Operator.KILL)
 				newMap.dragonGlass--;
 			
@@ -217,6 +206,7 @@ public abstract class Search {
 					Operator.costOfOperator(Operator.RIGHT)+node.getPathCost(),
 					node.getSearchType()));
 		}
+		
 		
 		return result;
 	}

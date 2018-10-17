@@ -2,6 +2,8 @@ package models;
 
 import java.util.ArrayList;
 
+import utilities.utilities;
+
 public class MiniMap {
 	public final int mapM, mapN;
 	public ArrayList<int[]> stones;
@@ -23,6 +25,17 @@ public class MiniMap {
 		this.x = x;
 		this.y = y;
 		this.dragonGlass = dragonGlass;
+	}
+	public MiniMap(MiniMap old){
+		this.mapM = old.mapM;
+		this.mapN = old.mapN;
+		MAX_DRAGON_GLASS = old.MAX_DRAGON_GLASS;
+		this.stones = utilities.copyArray(old.stones);
+		this.walkers = utilities.copyArray(old.walkers);
+		this.obstacles = utilities.copyArray(old.obstacles);
+		this.x = old.x;
+		this.y = old.y;
+		this.dragonGlass = old.dragonGlass;
 	}
 	
 	public void kill(){
@@ -52,17 +65,19 @@ public class MiniMap {
 	public boolean ifPickUp() {
 		if(dragonGlass<=0)
 			for(int[] st : stones){
-				if((st[0] == x && st[1]+1 == y) ||
-						(st[0] == x && st[1]-1 == y) ||
-						(st[0]+1 == x && st[1] == y) ||
-						(st[0]-1 == x && st[1] == y) )
+//				if((st[0] == x && st[1]+1 == y) ||
+//						(st[0] == x && st[1]-1 == y) ||
+//						(st[0]+1 == x && st[1] == y) ||
+//						(st[0]-1 == x && st[1] == y) )
+//					return true;
+				if((st[0] == x && st[1] == y) )
 					return true;
 			}
 		return false;
 	}
 	
 	public boolean ifMoveUp() {
-		if(0 >= x)
+		if(0 > y-1)
 			return false;
 		for(int[] temp : obstacles)
 			if(temp[0] == x && temp[1] == y-1)
@@ -73,7 +88,7 @@ public class MiniMap {
 		return true;
 	}
 	public boolean ifMoveDown() {
-		if(mapM <= x)
+		if(mapM <= y+1)
 			return false;
 		for(int[] temp : obstacles)
 			if(temp[0] == x && temp[1] == y+1)
@@ -84,24 +99,24 @@ public class MiniMap {
 		return true;
 	}
 	public boolean ifMoveRight() {
-		if(mapN <= y)
+		if(mapN <= x+1)
 			return false;
 		for(int[] temp : obstacles)
-			if(temp[0] == x-1 && temp[1] == y)
+			if(temp[0] == x+1 && temp[1] == y)
 				return false;
 		for(int[] temp : walkers)
-			if(temp[0] == x-1 && temp[1] == y)
+			if(temp[0] == x+1 && temp[1] == y)
 				return false;
 		return true;
 	}
 	public boolean ifMoveLeft() {
-		if(0 >= y)
+		if(0 > x-1)
 			return false;
 		for(int[] temp : obstacles)
-			if(temp[0] == x+1 && temp[1] == y)
+			if(temp[0] == x-1 && temp[1] == y)
 				return false;
 		for(int[] temp : walkers)
-			if(temp[0] == x+1 && temp[1] == y)
+			if(temp[0] == x-1 && temp[1] == y)
 				return false;
 		return true;
 	}

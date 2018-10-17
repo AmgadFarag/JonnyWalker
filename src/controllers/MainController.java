@@ -30,7 +30,7 @@ public class MainController implements WorldListener{
 		State initial = new State(grid.walkers.size(), false);
 		
 		MiniMap miniWorld = new MiniMap(grid.mapM, grid.mapN, grid.MAX_DRAGON_GLASS,
-				grid.stones, grid.walkers, grid.obstacles, grid.mapM, grid.mapN, 0);
+				grid.stones, grid.walkers, grid.obstacles, grid.mapM-1, grid.mapN-1, 0);
 		
 
 		SearchTreeNode root = new SearchTreeNode(miniWorld, initial,null,null,0,0,"");
@@ -54,7 +54,7 @@ public class MainController implements WorldListener{
 			returns[1] = 1000;
 			returns[2] = search.getCumelativeExpansions();
 		}else{
-			System.out.println(goal);
+			//System.out.println(goal);
 			returns[0] = (LinkedList<SearchTreeNode>)Search.backTrack(goal);
 			returns[1] = (int)goal.getPathCost();
 			returns[2] = (int)search.getCumelativeExpansions();
@@ -207,8 +207,8 @@ public class MainController implements WorldListener{
 							System.out.println(e.getMessage());
 						}
 					}
-					for(SearchTreeNode node :((LinkedList<SearchTreeNode>)ret[0]))
-						System.out.println(node);
+					//for(SearchTreeNode node :((LinkedList<SearchTreeNode>)ret[0]))
+						//System.out.println(node);
 					//System.out.println("Search Fail");
 				}
 			}

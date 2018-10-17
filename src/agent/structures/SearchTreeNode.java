@@ -61,7 +61,7 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
 		
 
 	public String toString(){
-		String s = "Label: "+/*myLabel*/seqnum+" After ";
+		String s = "Label: "+/*myLabel*/seqnum+", Parent: "+parent.seqnum+ "WorldSate: "+ worldState.x +", "+ worldState.y + " After ";
 		s+=(operatorApplied!=null)? operatorApplied.toString():" NOTHING";
 		s+=" Cost "+pathCost;
 		return s;
