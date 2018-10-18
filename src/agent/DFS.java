@@ -1,36 +1,39 @@
 package agent;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 
 import agent.structures.SearchTreeNode;
 
 public class DFS extends Search{
-	private static Stack<SearchTreeNode> queue;
-
+	private static LinkedList<SearchTreeNode> queue;
+	private static boolean GoalReached = false;
 	public DFS(SearchTreeNode tre) {
-		queue = new Stack<SearchTreeNode>();
+		queue = new LinkedList<SearchTreeNode>();
 		root = tre;
-		queue.push(tre);
+		queue.add(tre);
 		cumelativeExpansions = 0;
-		begin();
 	}
 	
 	public SearchTreeNode begin(){
+		if(GoalReached)
+			return null;
 		if(queue.isEmpty())
 			return null;
 
-		SearchTreeNode current = queue.pop();
+		SearchTreeNode current = queue.removeFirst();
 		if(isGoal(current)){
-			System.out.println(current);
+			GoalReached = true;
+			//System.out.println(current);
 			return current;
 		}
 
 		ArrayList<SearchTreeNode> expansion = expandNode(current);
-		
+		System.out.println();
 		for(SearchTreeNode temp : expansion){
-			//System.out.println(temp);
-			queue.push(temp);
+			System.out.print(", "+temp);
+			queue.addLast(temp);
 			cumelativeExpansions++;
 		}
 		

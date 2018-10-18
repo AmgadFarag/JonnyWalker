@@ -30,7 +30,7 @@ public class MainController implements WorldListener{
 		State initial = new State(grid.walkers.size(), false);
 		
 		MiniMap miniWorld = new MiniMap(grid.mapM, grid.mapN, grid.MAX_DRAGON_GLASS,
-				grid.stones, grid.walkers, grid.obstacles, grid.mapM-1, grid.mapN-1, 0);
+				grid.stones, grid.walkers, grid.obstacles, grid.mapM-1,grid.mapN-1, 0);
 		
 
 		SearchTreeNode root = new SearchTreeNode(miniWorld, initial,null,null,0,0,"");
@@ -49,19 +49,21 @@ public class MainController implements WorldListener{
 		}
 		
 		SearchTreeNode goal = search.begin();
+		System.out.println("Goal: "+ goal);
 		if(goal == null){
 			returns[0] = null;
 			returns[1] = 1000;
 			returns[2] = search.getCumelativeExpansions();
 		}else{
 			//System.out.println(goal);
-			returns[0] = (LinkedList<SearchTreeNode>)Search.backTrack(goal);
+			returns[0] = (LinkedList<String>)Search.backTrack(goal,visualize);
 			returns[1] = (int)goal.getPathCost();
 			returns[2] = (int)search.getCumelativeExpansions();
 			
 		
-			if(visualize)
-				visual((LinkedList<SearchTreeNode>) returns[0]);
+			System.out.println(returns[0]);
+//			if(visualize)
+//				visual((LinkedList<SearchTreeNode>) returns[0]);
 		}
 		return returns;
 	}
@@ -163,13 +165,10 @@ public class MainController implements WorldListener{
 						}
 					}
 					if(input.contains("ID")){
-						try{
+						
 							ret = ct.Search(grid, "ID", visual);
 							System.out.println("Search Complete");
-						}catch(Exception e){
-							System.out.println("Search Fail");
-							System.out.println(e.getMessage());
-						}
+						
 					}
 					if(input.contains("GR1")){
 						try{

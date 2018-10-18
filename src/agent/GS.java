@@ -26,12 +26,14 @@ public class GS extends Search{
 				return null;
 			}
 			SearchTreeNode current = queue.poll();
-			System.out.println(current);
+			//System.out.println(current);
 			if (isGoal(current))
 					return current;
 		    ArrayList<SearchTreeNode> expandednodes = expandNode(current);
+		    System.out.println();
 			for (int j = expandednodes.size() - 1; j >= 0; j--) {
 				SearchTreeNode curr = expandednodes.get(j);
+				System.out.print(curr);
 				if(heuristic==1)
 				    curr.setHeursticCost(heuristic1(curr));
 				if(heuristic == 2)

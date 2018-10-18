@@ -1,6 +1,8 @@
 package agent.structures;
 
 import models.MiniMap;
+
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class SearchTreeNode implements Comparable<SearchTreeNode>{
@@ -61,9 +63,66 @@ public class SearchTreeNode implements Comparable<SearchTreeNode>{
 		
 
 	public String toString(){
-		String s = "Label: "+/*myLabel*/seqnum+", Parent: "+parent.seqnum+ "WorldSate: "+ worldState.x +", "+ worldState.y + " After ";
-		s+=(operatorApplied!=null)? operatorApplied.toString():" NOTHING";
-		s+=" Cost "+pathCost;
+		String s = "Label: "+/*myLabel*/seqnum;
+		try{
+			int m = getWorldState().mapM;
+			int n = getWorldState().mapN;
+			ArrayList<int[]> stones = getWorldState().stones;
+			ArrayList<int[]> obstcals = getWorldState().obstacles;
+			ArrayList<int[]> walkers = getWorldState().walkers;
+			int x = getWorldState().x;
+			int y = getWorldState().y;
+			boolean filled = false;
+			s = "Label: "+ seqnum+", Parent: ";
+			s+= (parent!=null)? parent.seqnum: "0";
+			s+= ", After:";
+			s+=(operatorApplied!=null)? operatorApplied.toString():" NOTHING" ;
+			s+=" Cost "+pathCost+"\n";
+			for(int i =0; i <m; i++){
+				for(int j =0; j<n; j++){
+					if(x == i && y == j ){
+						s+= " [J] ";
+						filled = true;
+					}
+					if(!filled)
+					for(int stidx = 0;stidx < stones.size() &&!filled; stidx++){
+						int[] stone = stones.get(stidx);
+						if(i == stone[0] && j == stone[1] &&!filled){
+							s += " [S] ";
+							filled =true;
+						}
+					}
+					if(!filled)
+					for(int obidx = 0;obidx < obstcals.size()&&!filled; obidx++){
+						int[] obstcal = obstcals.get(obidx);
+						if(i == obstcal[0] && j == obstcal[1]){
+							s += " [O] ";
+							filled = true;
+						}
+					}
+					if(!filled)
+					for(int walidx = 0;walidx < walkers.size()&&!filled; walidx++){
+						int[] walker = walkers.get(walidx);
+						if(i == walker[0] && j == walker[1]){
+							s += " [W] ";
+							filled = true;
+						}
+					}
+					
+					
+					if(!filled)
+						s+= " [E] ";
+					filled =false;
+				}
+				filled =false;
+				s+="\n";
+			}
+//		s = "Label: "+/*myLabel*/seqnum+", Parent: "+parent.seqnum+ "WorldSate: "+ worldState.x +", "+ worldState.y + " After ";
+//		s+=(operatorApplied!=null)? operatorApplied.toString():" NOTHING";
+//		s+=" Cost "+pathCost;
+		}catch(Exception e){
+			
+		}
 		return s;
 	}
 

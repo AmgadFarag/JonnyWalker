@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 
+import agent.structures.Operator;
 import utilities.utilities;
 
 public class MiniMap {
@@ -38,7 +39,7 @@ public class MiniMap {
 		this.dragonGlass = old.dragonGlass;
 	}
 	
-	public void kill(){
+	public void kill(){//Actual Killing surrounding Walkers
 		for(int i=0; i<walkers.size(); i++){
 			int[] wal = walkers.get(i);
 			if((wal[0] == x && wal[1]+1 == y) ||
@@ -46,7 +47,7 @@ public class MiniMap {
 					(wal[0]+1 == x && wal[1] == y) ||
 					(wal[0]-1 == x && wal[1] == y) ){
 				walkers.remove(i);
-				break;
+				
 			}
 		}
 	}
@@ -77,6 +78,39 @@ public class MiniMap {
 	}
 	
 	public boolean ifMoveUp() {
+		if(0 > x-1)
+			return false;
+		for(int[] temp : obstacles)
+			if(temp[0] == x-1 && temp[1] == y)
+				return false;
+		for(int[] temp : walkers)
+			if(temp[0] == x-1 && temp[1] == y)
+				return false;
+		return true;
+	}
+	public boolean ifMoveDown() {
+		if(mapM <= x+1)
+			return false;
+		for(int[] temp : obstacles)
+			if(temp[0] == x+1 && temp[1] == y)
+				return false;
+		for(int[] temp : walkers)
+			if(temp[0] == x+1 && temp[1] == y)
+				return false;
+		return true;
+	}
+	public boolean ifMoveRight() {
+		if(mapN <= y+1)
+			return false;
+		for(int[] temp : obstacles)
+			if(temp[0] == x && temp[1] == y+1)
+				return false;
+		for(int[] temp : walkers)
+			if(temp[0] == x && temp[1] == y+1)
+				return false;
+		return true;
+	}
+	public boolean ifMoveLeft() {
 		if(0 > y-1)
 			return false;
 		for(int[] temp : obstacles)
@@ -87,37 +121,31 @@ public class MiniMap {
 				return false;
 		return true;
 	}
-	public boolean ifMoveDown() {
-		if(mapM <= y+1)
+	public boolean containStone(Operator op){
+		switch (op) {
+		case RIGHT:
+			for(int[] temp : stones)
+				if(temp[0] == x && temp[1] == y+1)
+					return true;
 			return false;
-		for(int[] temp : obstacles)
-			if(temp[0] == x && temp[1] == y+1)
-				return false;
-		for(int[] temp : walkers)
-			if(temp[0] == x && temp[1] == y+1)
-				return false;
-		return true;
-	}
-	public boolean ifMoveRight() {
-		if(mapN <= x+1)
+		case LEFT:
+			for(int[] temp : stones)
+				if(temp[0] == x && temp[1] == y-1)
+					return true;
 			return false;
-		for(int[] temp : obstacles)
-			if(temp[0] == x+1 && temp[1] == y)
-				return false;
-		for(int[] temp : walkers)
-			if(temp[0] == x+1 && temp[1] == y)
-				return false;
-		return true;
-	}
-	public boolean ifMoveLeft() {
-		if(0 > x-1)
+		case UP:
+			for(int[] temp : stones)
+				if(temp[0] == x-1 && temp[1] == y)
+					return true;
 			return false;
-		for(int[] temp : obstacles)
-			if(temp[0] == x-1 && temp[1] == y)
-				return false;
-		for(int[] temp : walkers)
-			if(temp[0] == x-1 && temp[1] == y)
-				return false;
-		return true;
+		case DOWN:
+			for(int[] temp : stones)
+				if(temp[0] == x+1 && temp[1] == y)
+					return true;
+			return false;
+
+		default:
+			return false;
+		} 
 	}
 }

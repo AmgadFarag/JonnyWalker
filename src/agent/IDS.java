@@ -1,85 +1,48 @@
 package agent;
 
 import java.util.ArrayList;
-import java.util.Stack;
+import java.util.LinkedList;
 
 import agent.structures.SearchTreeNode;
+import utilities.utilities;
 
 public class IDS extends Search {
-	private int depth;
-	private Stack<SearchTreeNode> queue;
-
+	LinkedList<SearchTreeNode> queue = new LinkedList<SearchTreeNode>();
 	public IDS(SearchTreeNode root) {
 		this.root = root;
-		queue = new Stack<SearchTreeNode>();
 		queue.add(root);
-		depth = 0;
 	}
 
-	//result[0] b null, check for it
 	public SearchTreeNode begin() {
-		if (queue.isEmpty())
-			return null;
-		Stack<SearchTreeNode> temp = new Stack<SearchTreeNode>();
-		for (int i = 0; i <= depth; i++) {
-			while (!queue.isEmpty()) {
-				SearchTreeNode current = queue.pop();
+	
+		for(int i =0; ; i++){
+			LinkedList<SearchTreeNode> Q =depthLimitedSearch(i);
+			while(!Q.isEmpty()){
+				SearchTreeNode current = Q.removeFirst();
 				System.out.println(current);
-				if (isGoal(current))
+				if(isGoal(current))
 					return current;
-				temp.push(current);
-				cumelativeExpansions++;
 			}
-			while (!temp.isEmpty()) {
-				Stack<SearchTreeNode> intermidate = new Stack<SearchTreeNode>();
-				SearchTreeNode current = temp.pop();
-				intermidate.push(current);
-				if (current.getDepth() < depth) {
-					ArrayList<SearchTreeNode> expansion = expandNode(current);
-					//System.out.println(expansion.size());
-
-					for (int j = expansion.size() - 1; j >= 0; j--) {
-						temp.push(expansion.get(j));
-						cumelativeExpansions++;
-
-					}
-				}
-				if (current.getDepth() == depth) {
-					
-					while(!intermidate.isEmpty())
-					queue.push(intermidate.pop());
-					cumelativeExpansions++;
-					
-						
-				}
-
+			
+		}
+	}
+	private LinkedList<SearchTreeNode> depthLimitedSearch(int depth){
+		LinkedList<SearchTreeNode> visited = new LinkedList<SearchTreeNode>();
+		while(!queue.isEmpty()){
+			SearchTreeNode current = queue.removeFirst();
+			
+			if(current.getDepth() == depth-1){
+				visited.addLast(current);
+				ArrayList<SearchTreeNode> expansion = expandNode(current);
+				
+				visited.addAll(expansion);
+			}else{
+				visited.add(current);
 			}
 		}
-		//System.out.println(queue);
-		depth++;
-		return begin();
-
+		queue.addAll(visited);
+		cumelativeExpansions++;
+		return visited;
 	}
-//	public static void main(String[] args) {
-//		State s = new State(0, 0, 1, 1, true);
-//		State goal = new State(2, 2, 0, 2, true);
-//		SearchTreeNode n1 = new SearchTreeNode(s, null, null, 0	, 0);
-//		n1.setName("n1");
-//		SearchTreeNode n2 = new SearchTreeNode(s, n1, Operator.UP, 1	, 0);
-//		n2.setName("n2");
-//		SearchTreeNode n3 = new SearchTreeNode(s, n1, Operator.LEFT, 1	, 0);
-//		n3.setName("n3");
-//		SearchTreeNode n4 = new SearchTreeNode(s, n2, Operator.UP, 2	, 0);
-//		n4.setName("n4");
-//		SearchTreeNode n5 = new SearchTreeNode(s, n2, Operator.LEFT, 2	, 0);
-//		n5.setName("n5");
-//		SearchTreeNode n6 = new SearchTreeNode(s, n4, Operator.PICKUP, 3	, 0);
-//		n6.setName("n6");
-//		SearchTreeNode n7 = new SearchTreeNode(s, n3, Operator.LEFT, 2	, 0);
-//		n7.setName("n7");
-//		SearchTreeNode n8 = new SearchTreeNode(goal, n7, Operator.KILL, 3	, 0);
-//		n8.setName("n8");
-//		IDS ids = new IDS(n1, null);
-//		ids.begin(0);
-//	}
+	
 }

@@ -15,8 +15,6 @@ public abstract class Search {
 	protected int cumelativeCost;
 	protected int cumelativeExpansions = 0;
 	
-
-	
 	public int getCumelativeExpansions() {
 		return cumelativeExpansions;
 	}
@@ -39,76 +37,6 @@ public abstract class Search {
 			return false;
 	}
 	
-	/*public static int scoreOfOperator(WorldHandler world, SearchTreeNode node, Operator op){
-		switch(op){
-		case KILL: 
-			int walkerCount = world.ifAttack();
-			if(node.getState().walkersLeft == walkerCount)
-				return 20;
-			return walkerCount*5;
-			
-		case PICKUP:
-			if(world.jon.getDragonGlass() > 0)
-				return -6;
-			else
-				return 5;
-
-		case UP:
-			if(node.getOperatorApplied() == Operator.DOWN)
-				return -3;
-			if(node.getOperatorApplied() == Operator.KILL)
-				return -3;
-			if(world.ifMoveUp() == null)
-				return -10;
-			if(world.ifMoveUp() instanceof WalkerCell)
-				return -20;
-			if(world.ifMoveUp() instanceof ObstacleCell)
-				return -10;
-			return -1;
-
-		case DOWN:
-			if(node.getOperatorApplied() == Operator.UP)
-				return -3;
-			if(node.getOperatorApplied() == Operator.KILL)
-				return -3;
-			if(world.ifMoveDown() == null)
-				return -10;
-			if(world.ifMoveDown() instanceof WalkerCell)
-				return -20;
-			if(world.ifMoveDown() instanceof ObstacleCell)
-				return -10;
-			return -1;
-		
-		case LEFT:
-			if(node.getOperatorApplied() == Operator.RIGHT)
-				return -3;
-			if(node.getOperatorApplied() == Operator.KILL)
-				return -3;
-			if(world.ifMoveLeft() == null)
-				return -10;
-			if(world.ifMoveLeft() instanceof WalkerCell)
-				return -20;
-			if(world.ifMoveLeft() instanceof ObstacleCell)
-				return -10;
-			return -1;
-		
-		case RIGHT:
-			if(node.getOperatorApplied() == Operator.LEFT)
-				return -3;
-			if(node.getOperatorApplied() == Operator.KILL)
-				return -3;
-			if(world.ifMoveRight() == null)
-				return -10;
-			if(world.ifMoveRight() instanceof WalkerCell)
-				return -20;
-			if(world.ifMoveRight() instanceof ObstacleCell)
-				return -10;
-			return -1;
-		
-		}
-		return 0;
-	}
-	*/
 
 	public static ArrayList<SearchTreeNode> expandNode(SearchTreeNode node){
 		MiniMap world = node.getWorldState();
@@ -123,21 +51,7 @@ public abstract class Search {
 		State normalState = new State(walkersLeft, localGoal);
 		State killState = new State(walkersAfterKill, localGoal);
 		State pickupState = new State(walkersLeft, true);
-
-		
-		/*if(node.getOperatorApplied() != Operator.KILL)
-			world.dragonGlass--;
-		else
-			if(world.dragonGlass > 1)
-				killState = new State(walkersLeft--, false);
-
-		if(world.dragonGlass > 1){
-			normalState = new State(walkersLeft, false);
-			killState = new State(walkersLeft, false);
-		}*/
-		
-		
-		
+				
 		if(world.ifAttack() && canAttak){
 			//Kill
 			MiniMap newMap = new MiniMap(world);
@@ -155,10 +69,11 @@ public abstract class Search {
 				node.getSearchType()));
 		}
 
-		if(world.ifMoveUp() && node.getOperatorApplied() != Operator.DOWN){
+		if(world.ifMoveUp() && node.getOperatorApplied() != Operator.DOWN||
+				world.ifMoveUp() && node.getOperatorApplied() == Operator.DOWN  && localGoal && world.dragonGlass<=0 && world.containStone(Operator.UP)){
 			//UP
 			MiniMap newMap = new MiniMap(world);
-			newMap.y--;
+			newMap.x--;
 			if(node.getOperatorApplied() == Operator.KILL)
 				newMap.dragonGlass--;
             
@@ -168,10 +83,11 @@ public abstract class Search {
 					node.getSearchType()));
 		}
 		
-		if(world.ifMoveLeft() && node.getOperatorApplied() != Operator.RIGHT){
+		if(world.ifMoveLeft() && node.getOperatorApplied() != Operator.RIGHT||
+				world.ifMoveLeft() && node.getOperatorApplied() == Operator.RIGHT  && localGoal && world.dragonGlass<=0 && world.containStone(Operator.LEFT)){
 			//LEFT
 			MiniMap newMap = new MiniMap(world);
-			newMap.x--;
+			newMap.y--;
 			if(node.getOperatorApplied() == Operator.KILL)
 				newMap.dragonGlass--;
 			
@@ -181,10 +97,11 @@ public abstract class Search {
 					node.getSearchType()));
 		}
 
-		if(world.ifMoveDown() && node.getOperatorApplied() != Operator.UP){
+		if(world.ifMoveDown() && node.getOperatorApplied() != Operator.UP ||
+				world.ifMoveDown() && node.getOperatorApplied() == Operator.UP  && localGoal && world.dragonGlass<=0 && world.containStone(Operator.DOWN)){
 			//DOWN
 			MiniMap newMap = new MiniMap(world);
-			newMap.y++;
+			newMap.x++;
 			if(node.getOperatorApplied() == Operator.KILL)
 				newMap.dragonGlass--;
 
@@ -194,10 +111,11 @@ public abstract class Search {
 					node.getSearchType()));
 		}
 
-		if(world.ifMoveRight() && node.getOperatorApplied() != Operator.LEFT){
+		if(world.ifMoveRight() && node.getOperatorApplied() != Operator.LEFT ||
+				world.ifMoveRight() && node.getOperatorApplied() == Operator.LEFT  && localGoal && world.dragonGlass<=0 && world.containStone(Operator.RIGHT)){
 			//RIGHT
 			MiniMap newMap = new MiniMap(world);
-			newMap.x++;
+			newMap.y++;
 			if(node.getOperatorApplied() == Operator.KILL)
 				newMap.dragonGlass--;
 			
@@ -211,11 +129,15 @@ public abstract class Search {
 		return result;
 	}
 
-	public static LinkedList<SearchTreeNode> backTrack(SearchTreeNode node){
-		LinkedList<SearchTreeNode> result = new LinkedList<SearchTreeNode>();
+	public static LinkedList<String> backTrack(SearchTreeNode node,boolean visualize){
+		
+		LinkedList<String> result = new LinkedList<String>();
 		SearchTreeNode current = node;
 		for(int i=node.getDepth(); i>=0; i--){
-			result.addFirst(current);
+			if(visualize)
+				result.addFirst(current.toString() + "\n");
+			else
+				result.addFirst(current.getOperatorApplied() + "\n");
 			try{
 				current = current.getParent();
 			}catch(NullPointerException e){ }

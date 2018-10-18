@@ -1,6 +1,9 @@
 package utilities;
 
 import java.util.ArrayList;
+import java.util.Stack;
+
+import agent.structures.SearchTreeNode;
 
 public class utilities {
 	public static ArrayList<int[]> copyArray(ArrayList<int[]> arr){
@@ -9,5 +12,12 @@ public class utilities {
 			newArr.add(arr.get(i));
 		}
 		return newArr;
+	}
+
+	public static Stack<SearchTreeNode> flip(Stack<SearchTreeNode> in) {
+		Stack<SearchTreeNode> result = new Stack<SearchTreeNode>();
+		while(!in.isEmpty())
+			result.push(in.pop());
+		return result;
 	}
 }

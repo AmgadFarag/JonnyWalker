@@ -17,7 +17,7 @@ public class UCS extends Search{
 	
 	public SearchTreeNode begin() {
 		if(queue.isEmpty()){
-			System.out.println("No more moves -ucs");
+			//System.out.println("No more moves -ucs");
 			return null;
 		}
 			
@@ -27,12 +27,14 @@ public class UCS extends Search{
 			return current;
 		
 		ArrayList<SearchTreeNode> expandednodes = expandNode(current);
-		for (SearchTreeNode temp: expandednodes)
+		System.out.println();
+		for (SearchTreeNode temp: expandednodes){
+			System.out.print(", "+temp);
 			if(temp != null){
 				queue.add(temp);
 				cumelativeExpansions++;
 			}
-		
+		}
 		//System.out.println(queue);
 		return begin();
 	}

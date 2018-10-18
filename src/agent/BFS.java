@@ -13,7 +13,6 @@ public class BFS extends Search{
 		root = tre;
 		queue.add(tre);
 		cumelativeExpansions = 0;
-		begin();
 	}
 	
 	public SearchTreeNode begin(){
@@ -23,22 +22,28 @@ public class BFS extends Search{
 			return null;
 		
 		SearchTreeNode current = queue.removeFirst();
-//		System.out.println(current.toString());
+		
 		if(isGoal(current)){
+//			System.out.println(current.toString());
 			GoalReached = true;
 			return current;
 		}
 
 		ArrayList<SearchTreeNode> expansion = expandNode(current);
-		System.out.println();
+		//System.out.println();
+		LinkedList<SearchTreeNode> newQ = new LinkedList<SearchTreeNode>();
 		for(SearchTreeNode temp: expansion){
-			System.out.print(" , " + temp.toString());
+			//System.out.print(" , " + temp.toString());
 			if(temp != null){
 				//System.out.println(temp);
-				queue.addLast(temp);
+				newQ.add(temp);
 				cumelativeExpansions++;
 			}
 		}
+		while(!queue.isEmpty()){
+			newQ.add(queue.removeFirst());
+		}
+		queue = newQ;
 		//System.out.println(queue);		
 		return begin();
 	}
