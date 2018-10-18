@@ -8,7 +8,6 @@ import agent.structures.SearchTreeNode;
 public class AS extends Search{
 	private PriorityQueue<SearchTreeNode> queue;
 	private int heuristic;
-	private int a;
 
 	public AS(int heuristic, SearchTreeNode root) {
 		this.heuristic = heuristic;
