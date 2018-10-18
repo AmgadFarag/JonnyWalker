@@ -56,8 +56,8 @@ public class GenGrid {
 //					tempN = 2;	
 //				}
 //			}
-			int tempM = (int)(Math.random()*mapM + 1);
-			int tempN = (int)(Math.random()*mapN + 1);
+			int tempM = (int)(Math.random()*(mapM-1) + 1);
+			int tempN = (int)(Math.random()*(mapN-1) + 1);
 			if(tempM != mapM && tempN != mapN && map[tempM][tempN] != 1){
 				map[tempM][tempN] = 1;
 				int[] ar = new int[2];
@@ -73,8 +73,8 @@ public class GenGrid {
 		for(int i=0; i<MAX_DRAGON_STONES; i++){
 //			int tempM =1;
 //			int tempN = 1;
-			int tempM = (int)(Math.random()*mapM + 1);
-			int tempN = (int)(Math.random()*mapN + 1);
+			int tempM = (int)(Math.random()*(mapM-1) + 1);
+			int tempN = (int)(Math.random()*(mapN-1) + 1);
 			if(tempM != mapM && tempN != mapN){
 				if(map[tempM][tempN] == 1)
 					i--;
@@ -94,8 +94,8 @@ public class GenGrid {
 		for(int i=0; i<MAX_OBSTACLES; i++){
 //			int tempM = 0;
 //			int tempN = 1;
-			int tempM = (int)(Math.random()*mapM + 1);
-			int tempN = (int)(Math.random()*mapN + 1);
+			int tempM = (int)(Math.random()*(mapM-1) + 1);
+			int tempN = (int)(Math.random()*(mapN-1) + 1);
 			if(tempN != mapM && tempM != mapN){
 				if(map[tempM][tempN] == 1){
 					i--;

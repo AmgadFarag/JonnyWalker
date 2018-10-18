@@ -12,7 +12,7 @@ public class UCS extends Search{
 		queue = new PriorityQueue<SearchTreeNode>();
 		this.root = root;
 		queue.add(root);
-		begin();
+		cumelativeExpansions = 0;
 	}
 	
 	public SearchTreeNode begin() {
@@ -26,14 +26,13 @@ public class UCS extends Search{
 			return current;
 		
 		ArrayList<SearchTreeNode> expandednodes = expandNode(current);
-		//System.out.println();
 		for (SearchTreeNode temp: expandednodes){
+
 			if(temp != null){
 				queue.add(temp);
 				cumelativeExpansions++;
 			}
 		}
-		//System.out.println(queue);
 		return begin();
 	}
 }

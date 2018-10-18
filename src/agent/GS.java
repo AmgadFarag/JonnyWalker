@@ -16,6 +16,7 @@ public class GS extends Search{
 		root.setHeursticCost(heuristic ==1 ? heuristic1(root) :heuristic2(root));
 		queue = new PriorityQueue<SearchTreeNode>();
 		queue.add(root);
+		cumelativeExpansions = 0;
 	}
 
 	@Override
@@ -26,9 +27,9 @@ public class GS extends Search{
 				return null;
 			}
 			SearchTreeNode current = queue.poll();
-			//System.out.println(current);
 			if (isGoal(current))
 					return current;
+
 		    ArrayList<SearchTreeNode> expandednodes = expandNode(current);
 			for (int j = expandednodes.size() - 1; j >= 0; j--) {
 				SearchTreeNode curr = expandednodes.get(j);

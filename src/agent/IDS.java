@@ -11,6 +11,7 @@ public class IDS extends Search {
 	public IDS(SearchTreeNode root) {
 		this.root = root;
 		queue.add(root);
+		cumelativeExpansions = 0;
 	}
 
 	public SearchTreeNode begin() {
