@@ -30,9 +30,9 @@ public class DFS extends Search{
 		}
 
 		ArrayList<SearchTreeNode> expansion = expandNode(current);
-		System.out.println();
+		//System.out.println();
 		for(SearchTreeNode temp : expansion){
-			System.out.print(", "+temp);
+			//System.out.print(", "+temp);
 			queue.addLast(temp);
 			cumelativeExpansions++;
 		}

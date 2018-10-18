@@ -11,6 +11,7 @@ public class IDS extends Search {
 	public IDS(SearchTreeNode root) {
 		this.root = root;
 		queue.add(root);
+		cumelativeExpansions = 0;
 	}
 
 	public SearchTreeNode begin() {
@@ -19,7 +20,7 @@ public class IDS extends Search {
 			LinkedList<SearchTreeNode> Q =depthLimitedSearch(i);
 			while(!Q.isEmpty()){
 				SearchTreeNode current = Q.removeFirst();
-				System.out.println(current);
+				//System.out.println(current);
 				if(isGoal(current))
 					return current;
 			}

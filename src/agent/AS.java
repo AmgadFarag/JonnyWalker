@@ -8,6 +8,7 @@ import agent.structures.SearchTreeNode;
 public class AS extends Search{
 	private PriorityQueue<SearchTreeNode> queue;
 	private int heuristic;
+	private int a;
 
 	public AS(int heuristic, SearchTreeNode root) {
 		this.heuristic = heuristic;
@@ -15,6 +16,7 @@ public class AS extends Search{
 		root.setHeursticCost(heuristic ==1 ? heuristic1(root) :heuristic2(root));
 		queue = new PriorityQueue<SearchTreeNode>();
 		queue.add(root);
+		cumelativeExpansions = 0;
 	}
 
 	@Override
@@ -29,10 +31,10 @@ public class AS extends Search{
 			if (isGoal(current))
 					return current;
 		    ArrayList<SearchTreeNode> expandednodes = expandNode(current);
-		    System.out.println();
+		   // System.out.println();
 			for (int j = expandednodes.size() - 1; j >= 0; j--) {
 				SearchTreeNode curr = expandednodes.get(j);
-				System.out.print(curr);
+				//System.out.print(curr);
 				if(heuristic==1)
 				    curr.setHeursticCost(heuristic1(curr));
 				if(heuristic == 2)
