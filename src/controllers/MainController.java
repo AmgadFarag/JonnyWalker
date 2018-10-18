@@ -62,6 +62,8 @@ public class MainController implements WorldListener{
 			
 		
 			System.out.println(returns[0]);
+			System.out.println(returns[1]);
+			System.out.println(returns[2]);
 //			if(visualize)
 //				visual((LinkedList<SearchTreeNode>) returns[0]);
 		}
@@ -74,31 +76,6 @@ public class MainController implements WorldListener{
 
 		return;
 	}
-	
-	@Override
-	public void onWalkerKilled() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onHitWalker() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onHitObstacle() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onHitDragonStoneCell() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
@@ -214,6 +191,30 @@ public class MainController implements WorldListener{
 		}
 		scan.close();
 		System.exit(0);
+	}
+
+	@Override
+	public void onWalkerKilled() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onHitWalker() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onHitObstacle() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onHitDragonStoneCell() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
