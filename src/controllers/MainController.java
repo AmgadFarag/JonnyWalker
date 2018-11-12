@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -19,7 +20,12 @@ public class MainController implements WorldListener{
 	public View view;
 	
 	public GenGrid GenGrid(){
-		grid = new GenGrid();
+		try {
+			grid = new GenGrid();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return grid;
 	}
 	
