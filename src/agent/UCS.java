@@ -22,20 +22,17 @@ public class UCS extends Search{
 		}
 			
 		SearchTreeNode current = queue.poll();
-		//System.out.println(current);
 		if (isGoal(current))
 			return current;
 		
 		ArrayList<SearchTreeNode> expandednodes = expandNode(current);
-		//System.out.println();
 		for (SearchTreeNode temp: expandednodes){
-			//System.out.print(", "+temp);
+
 			if(temp != null){
 				queue.add(temp);
 				cumelativeExpansions++;
 			}
 		}
-		//System.out.println(queue);
 		return begin();
 	}
 }

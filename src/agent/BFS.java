@@ -24,18 +24,14 @@ public class BFS extends Search{
 		SearchTreeNode current = queue.removeFirst();
 		
 		if(isGoal(current)){
-//			System.out.println(current.toString());
 			GoalReached = true;
 			return current;
 		}
 
 		ArrayList<SearchTreeNode> expansion = expandNode(current);
-		//System.out.println();
 		LinkedList<SearchTreeNode> newQ = new LinkedList<SearchTreeNode>();
 		for(SearchTreeNode temp: expansion){
-			//System.out.print(" , " + temp.toString());
 			if(temp != null){
-				//System.out.println(temp);
 				newQ.add(temp);
 				cumelativeExpansions++;
 			}
@@ -44,7 +40,6 @@ public class BFS extends Search{
 			newQ.add(queue.removeFirst());
 		}
 		queue = newQ;
-		//System.out.println(queue);		
 		return begin();
 	}
 
